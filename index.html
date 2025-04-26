@@ -36,7 +36,7 @@
 
         /* Slider Styling */
         .slider { position:relative; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .slider img { display: block; max-height: 350px; /* Slightly taller */ object-fit:cover; width: 100%; transition: opacity 0.5s ease-in-out; } /* Use opacity for smoother transition */
+        .slider img { display: block; max-height: 350px; object-fit:cover; width: 100%; transition: opacity 0.5s ease-in-out; } /* Use opacity for smoother transition */
         .slider:hover img { /* transform: scale(1.03); Optional hover effect */ }
         .slider-btn {
             position: absolute;
@@ -175,7 +175,7 @@
 
         /* Print styles */
         @media print {
-            .floating-btn, #effect-orders, .fake-order-popup, .slider-btn, #timer-section, .marquee-section, header button, #order-form button[type='submit'] { display: none !important }
+            .floating-btn, #effect-orders, .fake-order-popup, .slider-btn, #timer-section, .marquee-section, header button, #order-form button[type='submit'], #noidung details img { display: none !important } /* Hide details images on print */
             body { background-color: #fff; }
             .shadow-xl, .shadow-lg, .shadow-md, .shadow-sm, .shadow { box-shadow: none !important; }
             .border { border: 1px solid #ccc !important; }
@@ -211,6 +211,40 @@
         details summary::-webkit-details-marker { display:none; } /* Hide default marker */
         details summary { list-style: none; } /* Hide default marker for Firefox */
 
+        /* Style for images inside details */
+        details .details-content {
+             padding-left: 1.5rem; /* Align with text above */
+             margin-top: 0.5rem;
+             display: flex; /* Use flexbox for layout */
+             flex-direction: column; /* Stack text and image vertically */
+             gap: 0.75rem; /* Space between text and image */
+        }
+        details .details-content img {
+             max-width: 100%; /* Ensure image is responsive */
+             height: auto;
+             border-radius: 8px;
+             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+             /* You might want to limit max-height or width */
+             max-height: 300px;
+             object-fit: contain; /* Adjust as needed: cover, contain, etc. */
+             align-self: flex-start; /* Align image to the start */
+        }
+        @media (min-width: 640px) { /* On sm screens and up, place image beside text */
+             details .details-content {
+                 flex-direction: row; /* Place text and image side-by-side */
+                 align-items: flex-start; /* Align items to the top */
+             }
+             details .details-content p {
+                 flex: 1; /* Allow text to take available space */
+             }
+             details .details-content img {
+                 flex-basis: 200px; /* Give image a fixed base width */
+                 max-width: 200px; /* Limit image width */
+                 flex-shrink: 0; /* Prevent image from shrinking */
+             }
+        }
+
+
     </style>
 </head>
 <body class="text-gray-800">
@@ -222,6 +256,10 @@
                     <img id="slider-image" src="https://static.ladipage.net/60e3d69a577a1e00126a4dbe/2-20231204024352-w1coi.png" alt="Bìa sách Mẹo Nhớ Huyệt">
                     <img src="https://i.postimg.cc/Hn9TDL5b/meonhohuyet2.jpg" alt="Hình ảnh bên trong sách 1" style="display: none;">
                     <img src="https://i.postimg.cc/9QMCKCfq/meonhohuyet4.jpg" alt="Hình ảnh bên trong sách 2" style="display: none;">
+                    <img src="https://i.postimg.cc/m21SwFYc/meonhohuyet-m-c-l-c.jpg" alt="Mục lục sách 1" style="display: none;">
+                    <img src="https://i.postimg.cc/VkyWHLgK/meonhohuyet-m-c-l-c-2.jpg" alt="Mục lục sách 2" style="display: none;">
+                    <img src="https://i.postimg.cc/XNz8dgCS/meonhohuyet-m-c-l-c-3.jpg" alt="Mục lục sách 3" style="display: none;">
+                    <img src="https://i.postimg.cc/x8617PWK/meonhohuyet-kh1.jpg" alt="Feedback khách hàng về sách" style="display: none;">
                     <button id="slider-prev" class="slider-btn" aria-label="Ảnh trước"><i class="fas fa-chevron-left"></i></button>
                     <button id="slider-next" class="slider-btn" aria-label="Ảnh tiếp theo"><i class="fas fa-chevron-right"></i></button>
                 </div>
@@ -316,38 +354,56 @@
                         <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
                             <i class="fas fa-chevron-right group-open:rotate-90 transition-transform duration-200 mr-2 text-sm text-rose-400 w-4 text-center"></i> 1. Vùng vai gáy lưng
                         </summary>
-                        <p class="text-sm mt-2 pl-6 text-gray-600 leading-relaxed">Phong Phủ, Phong Trì, Đại Chùy, Thân Trụ, Chí Dương, Kiên Ngung, Kiên Tỉnh, Kiên Trinh, Nhu Du, Cánh Cân, Thiên Tông, Cao Hoang, Phế Du, Tâm Du, Cách Du, Can Du, Đởm Du, Tỳ Du, Vị Du, Thận Du, Chí Thất, Mệnh Môn, Yêu Nhãn, Bát Liêu, Trật Biên, Hoàn Khiêu.</p>
+                        <div class="details-content">
+                             <p class="text-sm text-gray-600 leading-relaxed">Phong Phủ, Phong Trì, Đại Chùy, Thân Trụ, Chí Dương, Kiên Ngung, Kiên Tỉnh, Kiên Trinh, Nhu Du, Cánh Cân, Thiên Tông, Cao Hoang, Phế Du, Tâm Du, Cách Du, Can Du, Đởm Du, Tỳ Du, Vị Du, Thận Du, Chí Thất, Mệnh Môn, Yêu Nhãn, Bát Liêu, Trật Biên, Hoàn Khiêu.</p>
+                             <img src="https://placehold.co/400x300/fecdd3/831843?text=Minh+Họa+Vai+Gáy+Lưng" alt="Hình ảnh minh họa huyệt vùng vai gáy lưng" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/e0e7ff/1e1b4b?text=Lỗi+Ảnh'">
+                        </div>
                     </details>
                     <details class="group">
                         <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
                              <i class="fas fa-chevron-right group-open:rotate-90 transition-transform duration-200 mr-2 text-sm text-rose-400 w-4 text-center"></i> 2. Vùng tay
                         </summary>
-                         <p class="text-sm mt-2 pl-6 text-gray-600 leading-relaxed">Thiếu Thương, Lao Cung, Ngư Tế, Thần Môn, Đại Lăng, Nội Quan, Liệt Khuyết, Xích Trạch, Hợp Cốc, Lạc Chẩm, Trung Chử, Ngoại Quan, Thủ Tam Lý, Khúc Trì, Tỳ Nhu, Tiểu Hải.</p>
+                         <div class="details-content">
+                            <p class="text-sm text-gray-600 leading-relaxed">Thiếu Thương, Lao Cung, Ngư Tế, Thần Môn, Đại Lăng, Nội Quan, Liệt Khuyết, Xích Trạch, Hợp Cốc, Lạc Chẩm, Trung Chử, Ngoại Quan, Thủ Tam Lý, Khúc Trì, Tỳ Nhu, Tiểu Hải.</p>
+                             <img src="https://placehold.co/400x300/dbeafe/1e40af?text=Minh+Họa+Vùng+Tay" alt="Hình ảnh minh họa huyệt vùng tay" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/e0e7ff/1e1b4b?text=Lỗi+Ảnh'">
+                         </div>
                     </details>
-                     <details class="group">
+                    <details class="group">
                         <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
                              <i class="fas fa-chevron-right group-open:rotate-90 transition-transform duration-200 mr-2 text-sm text-rose-400 w-4 text-center"></i> 3. Vùng ngực
                         </summary>
-                         <p class="text-sm mt-2 pl-6 text-gray-600 leading-relaxed">Vân Môn, Trung Phủ, Đản Trung, Thiên Đột, Ốc Ế, Thiên Trì, Nhũ Căn, Kỳ Môn.</p>
+                         <div class="details-content">
+                             <p class="text-sm text-gray-600 leading-relaxed">Vân Môn, Trung Phủ, Đản Trung, Thiên Đột, Ốc Ế, Thiên Trì, Nhũ Căn, Kỳ Môn.</p>
+                             <img src="https://placehold.co/400x300/fef3c7/854d0e?text=Minh+Họa+Vùng+Ngực" alt="Hình ảnh minh họa huyệt vùng ngực" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/e0e7ff/1e1b4b?text=Lỗi+Ảnh'">
+                         </div>
                     </details>
-                     <details class="group">
+                    <details class="group">
                         <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
                              <i class="fas fa-chevron-right group-open:rotate-90 transition-transform duration-200 mr-2 text-sm text-rose-400 w-4 text-center"></i> 4. Vùng bụng
                         </summary>
-                         <p class="text-sm mt-2 pl-6 text-gray-600 leading-relaxed">Cự Khuyết, Chương Môn, Trung Quản, Thần Khuyết, Khí Hải.</p>
+                         <div class="details-content">
+                            <p class="text-sm text-gray-600 leading-relaxed">Cự Khuyết, Chương Môn, Trung Quản, Thần Khuyết, Khí Hải.</p>
+                             <img src="https://placehold.co/400x300/dcfce7/166534?text=Minh+Họa+Vùng+Bụng" alt="Hình ảnh minh họa huyệt vùng bụng" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/e0e7ff/1e1b4b?text=Lỗi+Ảnh'">
+                         </div>
                     </details>
                     <details class="group">
                         <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
                              <i class="fas fa-chevron-right group-open:rotate-90 transition-transform duration-200 mr-2 text-sm text-rose-400 w-4 text-center"></i> 5. Vùng chân (mặt trước & sau)
                         </summary>
-                         <p class="text-sm mt-2 pl-6 text-gray-600 leading-relaxed">Quan Nguyên, Thiên Khu, Lương Môn, Trung Cực, Âm Lăng Tuyền, Huyết Hải, Lương Khâu, Thừa Phù, Phong Thị, Ủy Trung, Túc Tam Lý, Thừa Sơn, Tam Âm Giao, Thái Xung, Dũng Tuyền, Côn Lôn, Dương Lăng Tuyền...</p>
-                         </details>
+                         <div class="details-content">
+                            <p class="text-sm text-gray-600 leading-relaxed">Quan Nguyên, Thiên Khu, Lương Môn, Trung Cực, Âm Lăng Tuyền, Huyết Hải, Lương Khâu, Thừa Phù, Phong Thị, Ủy Trung, Túc Tam Lý, Thừa Sơn, Tam Âm Giao, Thái Xung, Dũng Tuyền, Côn Lôn, Dương Lăng Tuyền...</p>
+                             <img src="https://placehold.co/400x300/fce7f3/831843?text=Minh+Họa+Vùng+Chân" alt="Hình ảnh minh họa huyệt vùng chân" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/e0e7ff/1e1b4b?text=Lỗi+Ảnh'">
+                         </div>
+                    </details>
                     <details class="group">
                         <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
                              <i class="fas fa-chevron-right group-open:rotate-90 transition-transform duration-200 mr-2 text-sm text-rose-400 w-4 text-center"></i> 6. Vùng đầu - mặt
                         </summary>
-                        <p class="text-sm mt-2 pl-6 text-gray-600 leading-relaxed">Nhân Trung, Thừa Tương, Địa Thương, Giáp Xa, Hạ Quan, Thính Cung, Nhĩ Môn, Ế Phong, Ấn Đường, Toản Trúc, Tình Minh, Thái Dương, Nghinh Hương, Đầu Duy, Suất Cốc, Bách Hội, Tứ Thần Thông, Phong Phủ, Phong Trì.</p>
-                         </details>
+                        <div class="details-content">
+                            <p class="text-sm text-gray-600 leading-relaxed">Nhân Trung, Thừa Tương, Địa Thương, Giáp Xa, Hạ Quan, Thính Cung, Nhĩ Môn, Ế Phong, Ấn Đường, Toản Trúc, Tình Minh, Thái Dương, Nghinh Hương, Đầu Duy, Suất Cốc, Bách Hội, Tứ Thần Thông, Phong Phủ, Phong Trì.</p>
+                             <img src="https://placehold.co/400x300/e0f2fe/0891b2?text=Minh+Họa+Đầu+Mặt" alt="Hình ảnh minh họa huyệt vùng đầu mặt" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/e0e7ff/1e1b4b?text=Lỗi+Ảnh'">
+                         </div>
+                    </details>
                 </div>
             </div>
 
@@ -392,10 +448,10 @@
         <div class="max-w-5xl mx-auto px-4 md:px-6 text-center">
             <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Minh Họa Trực Quan, Dễ Hiểu</h3>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6" id="illustrations">
-                <img src="https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/494033161_668917902557973_4972195735417367988_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=sD8GcJqSL2oQ7kNvwEr36R0&_nc_oc=Adnwgwf7DltS-B66jIrlZuR2brJ8qVsxwORM5gyW6dgXv5X0j78R6oyapiBcduvgbPQ&_nc_zt=23&_nc_ht=scontent.fdad1-2.fna&_nc_gid=D7jOEfNJg2nM0WYlTVqeew&oh=00_AfG49NpjNd7TNN3nC9zyuo7vZxL0enCI3WFHmZsiIF6LQA&oe=681309C0" alt="Nội dung minh họa huyệt đạo 1" class="rounded-lg shadow-md border border-gray-200 w-full h-auto object-cover aspect-[2/3] hover:scale-105 transition-transform duration-300 cursor-pointer" onerror="this.onerror=null; this.src='https://placehold.co/350x500/e0e7ff/1e1b4b?text=Image+Error'">
-                <img src="https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/484910030_639054072211023_8616770552946651766_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=Vrl6gTRuofYQ7kNvwGhdaNB&_nc_oc=Adm5HTPxSHT5qDj52SUIZI3_w9fxqznWIvMq8joYzOKLwRPcJRWwSj0aDXN34Jiv-vc&_nc_zt=23&_nc_ht=scontent.fdad1-2.fna&_nc_gid=SppzVV98cR8T1VLFMXqR6A&oh=00_AfHhW09II-92OlC2fnd86x4wpaO8KloV4ghaDagnGKRdMA&oe=681319C2" alt="Nội dung minh họa huyệt đạo 2" class="rounded-lg shadow-md border border-gray-200 w-full h-auto object-cover aspect-[2/3] hover:scale-105 transition-transform duration-300 cursor-pointer" onerror="this.onerror=null; this.src='https://placehold.co/350x500/e0e7ff/1e1b4b?text=Image+Error'">
-                <img src="https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/485682523_639672042149226_1122559980509622407_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=gvuYTFSRJ8gQ7kNvwF1p7ir&_nc_oc=Admh7Fl5Wn-7a-uS8lknUTJgXmeR6gaEINWPcpvaoz4bMv-YL8xr8EzHcZ-OEP4Kwck&_nc_zt=23&_nc_ht=scontent.fdad1-4.fna&_nc_gid=1BQlCbEdD4H0VlsMTAo-CA&oh=00_AfHJv5xsfFykV5HyIE_om_pyLttOTl3xiwIxQOsyEGWrAg&oe=68130377" alt="Nội dung minh họa huyệt đạo 3" class="rounded-lg shadow-md border border-gray-200 w-full h-auto object-cover aspect-[2/3] hover:scale-105 transition-transform duration-300 cursor-pointer" onerror="this.onerror=null; this.src='https://placehold.co/350x500/e0e7ff/1e1b4b?text=Image+Error'">
-                <img src="https://i.postimg.cc/Hn9TDL5b/meonhohuyet2.jpg" alt="Nội dung minh họa huyệt đạo 4" class="rounded-lg shadow-md border border-gray-200 w-full h-auto object-cover aspect-[2/3] hover:scale-105 transition-transform duration-300 cursor-pointer" onerror="this.onerror=null; this.src='https://placehold.co/350x500/e0e7ff/1e1b4b?text=Image+Error'">
+                <img src="https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/494033161_668917902557973_4972195735417367988_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=sD8GcJqSL2oQ7kNvwEr36R0&_nc_oc=Adnwgwf7DltS-B66jIrlZuR2brJ8qVsxwORM5gyW6dgXv5X0j78R6oyapiBcduvgbPQ&_nc_zt=23&_nc_ht=scontent.fdad1-2.fna&_nc_gid=D7jOEfNJg2nM0WYlTVqeew&oh=00_AfG49NpjNd7TNN3nC9zyuo7vZxL0enCI3WFHmZsiIF6LQA&oe=681309C0" alt="Nội dung minh họa huyệt đạo 1" class="rounded-lg shadow-md border border-gray-200 w-full h-auto object-cover aspect-[2/3] hover:scale-105 transition-transform duration-300 cursor-pointer" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/350x500/e0e7ff/1e1b4b?text=Image+Error'">
+                <img src="https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/484910030_639054072211023_8616770552946651766_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=Vrl6gTRuofYQ7kNvwGhdaNB&_nc_oc=Adm5HTPxSHT5qDj52SUIZI3_w9fxqznWIvMq8joYzOKLwRPcJRWwSj0aDXN34Jiv-vc&_nc_zt=23&_nc_ht=scontent.fdad1-2.fna&_nc_gid=SppzVV98cR8T1VLFMXqR6A&oh=00_AfHhW09II-92OlC2fnd86x4wpaO8KloV4ghaDagnGKRdMA&oe=681319C2" alt="Nội dung minh họa huyệt đạo 2" class="rounded-lg shadow-md border border-gray-200 w-full h-auto object-cover aspect-[2/3] hover:scale-105 transition-transform duration-300 cursor-pointer" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/350x500/e0e7ff/1e1b4b?text=Image+Error'">
+                <img src="https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-6/485682523_639672042149226_1122559980509622407_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=gvuYTFSRJ8gQ7kNvwF1p7ir&_nc_oc=Admh7Fl5Wn-7a-uS8lknUTJgXmeR6gaEINWPcpvaoz4bMv-YL8xr8EzHcZ-OEP4Kwck&_nc_zt=23&_nc_ht=scontent.fdad1-4.fna&_nc_gid=1BQlCbEdD4H0VlsMTAo-CA&oh=00_AfHJv5xsfFykV5HyIE_om_pyLttOTl3xiwIxQOsyEGWrAg&oe=68130377" alt="Nội dung minh họa huyệt đạo 3" class="rounded-lg shadow-md border border-gray-200 w-full h-auto object-cover aspect-[2/3] hover:scale-105 transition-transform duration-300 cursor-pointer" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/350x500/e0e7ff/1e1b4b?text=Image+Error'">
+                <img src="https://i.postimg.cc/Hn9TDL5b/meonhohuyet2.jpg" alt="Nội dung minh họa huyệt đạo 4" class="rounded-lg shadow-md border border-gray-200 w-full h-auto object-cover aspect-[2/3] hover:scale-105 transition-transform duration-300 cursor-pointer" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/350x500/e0e7ff/1e1b4b?text=Image+Error'">
             </div>
             <p class="text-sm text-gray-600 mt-4 italic">Hình ảnh sắc nét, chú thích rõ ràng giúp bạn nắm vững vị trí và cách tác động.</p>
         </div>
@@ -414,11 +470,11 @@
                     </div>
                 </div>
                 <p class="text-gray-600 text-sm italic mb-4 flex-grow">"Sách trình bày khoa học, dễ hiểu. Phần mẹo ghi nhớ cực kỳ tâm đắc, giúp tôi tự tin ứng dụng bấm huyệt chăm sóc sức khỏe cho cả nhà. Rất đáng tiền!"</p>
-                <img src="https://i.postimg.cc/MGm5B2yd/meonhohuyet-kh1.jpg" class="mt-auto rounded shadow border w-full h-32 object-cover self-center" alt="Ảnh đọc sách thực tế 1" onerror="this.onerror=null; this.src='https://placehold.co/200x150/eeeeee/aaaaaa?text=Image'">
+                <img src="https://down-vn.img.susercontent.com/file/vn-11134103-7ras8-m2nrhhr5ft3aee.webp" class="mt-auto rounded shadow border w-full h-32 object-cover self-center" alt="Ảnh feedback sách Mẹo Nhớ Huyệt 1" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/200x150/eeeeee/aaaaaa?text=Image'">
             </div>
             <div class="bg-white rounded-lg shadow-lg border border-gray-100 p-5 flex flex-col">
                  <div class="flex items-start gap-4 mb-3">
-                    <img src="https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/476465Aoj/anh-mo-ta.png" alt="Ảnh đại diện Trần Huyền Trang" class="rounded-full w-14 h-14 object-cover border-2 border-pink-200 flex-shrink-0" onerror="this.onerror=null; this.src='https://placehold.co/60x60/cccccc/ffffff?text=User'">
+                    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Ảnh đại diện Trần Huyền Trang" class="rounded-full w-14 h-14 object-cover border-2 border-pink-200 flex-shrink-0" onerror="this.onerror=null; this.src='https://placehold.co/60x60/cccccc/ffffff?text=User'">
                     <div>
                         <span class="font-semibold text-gray-800 block">Trần Huyền Trang</span>
                         <div class="text-yellow-500 text-sm">
@@ -427,11 +483,11 @@
                     </div>
                 </div>
                 <p class="text-gray-600 text-sm italic mb-4 flex-grow">"Là mẹ bỉm, mình hay đau vai gáy. Đọc sách này biết cách tự bấm huyệt giảm đau hiệu quả. Shop còn tặng video hướng dẫn rất chi tiết, dễ làm theo."</p>
-                <img src="https://placehold.co/200x150/fce7f3/831843?text=Sách+Thực+Tế+2" class="mt-auto rounded shadow border w-full h-32 object-cover self-center" alt="Ảnh đọc sách thực tế 2" onerror="this.onerror=null; this.src='https://placehold.co/200x150/eeeeee/aaaaaa?text=Image'">
+                 <img src="https://down-vn.img.susercontent.com/file/vn-11134103-7ras8-m2nrhhr5bldyf2.webp" class="mt-auto rounded shadow border w-full h-32 object-cover self-center" alt="Ảnh feedback sách Mẹo Nhớ Huyệt 2" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/200x150/eeeeee/aaaaaa?text=Image'">
             </div>
             <div class="bg-white rounded-lg shadow-lg border border-gray-100 p-5 flex flex-col">
                 <div class="flex items-start gap-4 mb-3">
-                    <img src="https://hoanghamobile.com/tin-tuc/wp-content/uploads/2024/04/anh-trai-dep-Viet-Nam-76.jpg" alt="Ảnh đại diện Bùi Tuấn Hưng" class="rounded-full w-14 h-14 object-cover border-2 border-blue-200 flex-shrink-0" onerror="this.onerror=null; this.src='https://placehold.co/60x60/cccccc/ffffff?text=User'">
+                    <img src="https://randomuser.me/api/portraits/men/83.jpg" alt="Ảnh đại diện Bùi Tuấn Hưng" class="rounded-full w-14 h-14 object-cover border-2 border-blue-200 flex-shrink-0" onerror="this.onerror=null; this.src='https://placehold.co/60x60/cccccc/ffffff?text=User'">
                     <div>
                         <span class="font-semibold text-gray-800 block">Bùi Tuấn Hưng</span>
                         <div class="text-yellow-500 text-sm">
@@ -440,7 +496,7 @@
                     </div>
                 </div>
                 <p class="text-gray-600 text-sm italic mb-4 flex-grow">"Mua combo 2 cuốn lợi hơn hẳn. Hình ảnh minh họa rõ ràng, nội dung chất lượng. Giao hàng nhanh, đóng gói cẩn thận. Sẽ ủng hộ shop tiếp!"</p>
-                <img src="https://placehold.co/200x150/dbeafe/1e40af?text=Sách+Thực+Tế+3" class="mt-auto rounded shadow border w-full h-32 object-cover self-center" alt="Ảnh đọc sách thực tế 3" onerror="this.onerror=null; this.src='https://placehold.co/200x150/eeeeee/aaaaaa?text=Image'">
+                 <img src="https://down-vn.img.susercontent.com/file/vn-11134103-7r98o-lzg79ldvx6bx2c.webp" class="mt-auto rounded shadow border w-full h-32 object-cover self-center" alt="Ảnh feedback sách Mẹo Nhớ Huyệt 3" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/200x150/eeeeee/aaaaaa?text=Image'">
             </div>
         </div>
     </section>
@@ -523,12 +579,13 @@
 
         function showSlide(index) {
             sliderImages.forEach((img, i) => {
+                // Treat all images within the slider the same way
                 img.style.display = i === index ? 'block' : 'none';
-                // Optional: Add opacity transition class
                 img.style.opacity = i === index ? '1' : '0';
             });
             currentSlide = index;
         }
+
 
         if (prevBtn && nextBtn && sliderImages.length > 1) {
             prevBtn.addEventListener('click', () => {
@@ -558,10 +615,16 @@
             // Hide buttons if only one image
             if (prevBtn) prevBtn.style.display = 'none';
             if (nextBtn) nextBtn.style.display = 'none';
+             // Ensure the single image is displayed
+             if (sliderImages[0]) {
+                sliderImages[0].style.display = 'block';
+                sliderImages[0].style.opacity = '1';
+             }
         }
 
         // --- Countdown Timer ---
         const timerElement = document.getElementById('timer');
+        let timerInterval; // Declare interval variable
 
         function createTimerItem(digit, label) {
             const item = document.createElement('div');
@@ -587,8 +650,10 @@
             const distance = targetDate - now;
 
             if (distance < 0) {
-                timerElement.innerHTML = '<span class="text-red-600 font-semibold">Ưu đãi đã kết thúc!</span>';
-                clearInterval(timerInterval);
+                if(timerElement) {
+                    timerElement.innerHTML = '<span class="text-red-600 font-semibold">Ưu đãi đã kết thúc!</span>';
+                     if (timerInterval) clearInterval(timerInterval); // Clear interval when done
+                }
                 return;
             }
 
@@ -600,22 +665,24 @@
             // Format digits with leading zeros
             const format = (num) => String(num).padStart(2, '0');
 
-            timerElement.innerHTML = ''; // Clear previous timer
+            if(timerElement) {
+                timerElement.innerHTML = ''; // Clear previous timer
 
-            if (days > 0) {
-                timerElement.appendChild(createTimerItem(format(days), 'Ngày'));
+                if (days > 0) {
+                    timerElement.appendChild(createTimerItem(format(days), 'Ngày'));
+                    timerElement.appendChild(createTimerSeparator());
+                }
+                timerElement.appendChild(createTimerItem(format(hours), 'Giờ'));
                 timerElement.appendChild(createTimerSeparator());
+                timerElement.appendChild(createTimerItem(format(minutes), 'Phút'));
+                timerElement.appendChild(createTimerSeparator());
+                timerElement.appendChild(createTimerItem(format(seconds), 'Giây'));
             }
-            timerElement.appendChild(createTimerItem(format(hours), 'Giờ'));
-            timerElement.appendChild(createTimerSeparator());
-            timerElement.appendChild(createTimerItem(format(minutes), 'Phút'));
-            timerElement.appendChild(createTimerSeparator());
-            timerElement.appendChild(createTimerItem(format(seconds), 'Giây'));
         }
 
         if (timerElement) {
-            const timerInterval = setInterval(updateTimer, 1000);
             updateTimer(); // Initial call
+            timerInterval = setInterval(updateTimer, 1000); // Assign interval ID
         }
 
         // --- Scroll to Order Form ---
@@ -652,7 +719,9 @@
         };
 
         function populateSelect(selectElement, options) {
-            selectElement.innerHTML = `<option value="">${selectElement.options[0].text}</option>`; // Keep placeholder
+             if (!selectElement) return; // Add null check
+            const placeholder = selectElement.options[0].text; // Store placeholder text
+            selectElement.innerHTML = `<option value="">${placeholder}</option>`; // Keep placeholder
             options.forEach(option => {
                 const opt = document.createElement('option');
                 opt.value = option;
@@ -663,16 +732,18 @@
         }
 
         function updateFinalAddress() {
+             if (!citySelect || !districtSelect || !wardSelect || !streetInput || !finalAddressDiv) return; // Add null checks
              const city = citySelect.value;
              const district = districtSelect.value;
              const ward = wardSelect.value;
              const street = streetInput.value.trim();
              let fullAddress = "";
 
-             if (street) fullAddress += street + ", ";
-             if (ward) fullAddress += ward + ", ";
-             if (district) fullAddress += district + ", ";
-             if (city) fullAddress += city;
+             if (street) fullAddress += street;
+             if (ward) fullAddress += (fullAddress ? ", " : "") + ward;
+             if (district) fullAddress += (fullAddress ? ", " : "") + district;
+             if (city) fullAddress += (fullAddress ? ", " : "") + city;
+
 
              if (fullAddress) {
                  finalAddressDiv.textContent = fullAddress;
@@ -690,8 +761,8 @@
                 const selectedCity = citySelect.value;
                 districtSelect.disabled = true;
                 wardSelect.disabled = true;
-                districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
-                wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
+                populateSelect(districtSelect, []); // Clear districts
+                populateSelect(wardSelect, []); // Clear wards
                 if (selectedCity && addressData[selectedCity]) {
                     populateSelect(districtSelect, Object.keys(addressData[selectedCity]));
                 }
@@ -702,8 +773,8 @@
                 const selectedCity = citySelect.value;
                 const selectedDistrict = districtSelect.value;
                 wardSelect.disabled = true;
-                wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
-                if (selectedCity && selectedDistrict && addressData[selectedCity][selectedDistrict]) {
+                 populateSelect(wardSelect, []); // Clear wards
+                if (selectedCity && selectedDistrict && addressData[selectedCity]?.[selectedDistrict]) { // Optional chaining
                     populateSelect(wardSelect, addressData[selectedCity][selectedDistrict]);
                 }
                  updateFinalAddress();
@@ -732,11 +803,16 @@
                 let isValid = true;
                 const requiredFields = orderForm.querySelectorAll('[required]');
                 requiredFields.forEach(field => {
-                    if (!field.value.trim()) {
-                        isValid = false;
-                        field.classList.add('border-red-500'); // Highlight invalid fields
-                    } else {
-                         field.classList.remove('border-red-500');
+                     // Check if field is visible and enabled before validating
+                    if (field.offsetParent !== null && !field.disabled) {
+                        if (!field.value.trim()) {
+                            isValid = false;
+                            field.classList.add('border-red-500'); // Highlight invalid fields
+                             field.classList.remove('border-gray-300');
+                        } else {
+                            field.classList.remove('border-red-500');
+                             field.classList.add('border-gray-300');
+                        }
                     }
                 });
 
@@ -745,8 +821,10 @@
                 if (phoneInput && !phoneInput.checkValidity()) {
                     isValid = false;
                     phoneInput.classList.add('border-red-500');
+                     phoneInput.classList.remove('border-gray-300');
                 } else if (phoneInput) {
                     phoneInput.classList.remove('border-red-500');
+                     phoneInput.classList.add('border-gray-300');
                 }
 
                 if (!isValid) {
@@ -754,18 +832,25 @@
                     errorMsg.classList.remove('hidden');
                     submitButton.disabled = false;
                     submitButton.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Hoàn Tất Đặt Hàng';
+                    // Scroll to the first invalid field (optional)
+                    const firstInvalid = orderForm.querySelector('.border-red-500');
+                    if (firstInvalid) {
+                        firstInvalid.focus(); // Focus on the first invalid field
+                        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                     return;
                 }
 
                 // --- Simulate API Call ---
                 // Set current date
-                 document.getElementById('form-date').value = new Date().toISOString();
+                 const dateInput = document.getElementById('form-date');
+                 if (dateInput) dateInput.value = new Date().toISOString();
 
                  // Get form data (Example for potential sending)
                  const formData = new FormData(orderForm);
                  const data = {};
                  formData.forEach((value, key) => data[key] = value);
-                 data['final_address'] = finalAddressDiv.textContent; // Add final address
+                 if (finalAddressDiv) data['final_address'] = finalAddressDiv.textContent; // Add final address
                  console.log("Form Data (Simulated Send):", data);
 
                 setTimeout(() => {
@@ -773,12 +858,23 @@
                     successMsg.textContent = 'Đặt hàng thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.';
                     successMsg.classList.remove('hidden');
                     orderForm.reset(); // Clear the form
-                    // Reset address dropdowns
-                    districtSelect.disabled = true;
-                    wardSelect.disabled = true;
-                    districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
-                    wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
-                    finalAddressDiv.textContent = "Địa chỉ đầy đủ sẽ hiển thị ở đây";
+                    // Reset address dropdowns and final address display
+                    if (citySelect) populateSelect(citySelect, Object.keys(addressData)); // Repopulate cities
+                    if (districtSelect) {
+                         districtSelect.disabled = true;
+                         populateSelect(districtSelect, []);
+                    }
+                    if (wardSelect) {
+                         wardSelect.disabled = true;
+                          populateSelect(wardSelect, []);
+                    }
+                    if (finalAddressDiv) {
+                         finalAddressDiv.textContent = "Địa chỉ đầy đủ sẽ hiển thị ở đây";
+                    }
+                     // Reset borders
+                     requiredFields.forEach(field => field.classList.remove('border-red-500'));
+                     if (phoneInput) phoneInput.classList.remove('border-red-500');
+
                     submitButton.disabled = false;
                     submitButton.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Hoàn Tất Đặt Hàng';
 
@@ -803,6 +899,7 @@
 
         function getSelectedPrice() {
             const select = document.getElementById('don_hang');
+             if (!select) return 0; // Add null check
             const selectedValue = select.value;
             if (selectedValue.includes('349K')) return 349000;
             if (selectedValue.includes('229K')) return 229000;
@@ -815,6 +912,7 @@
         const names = ["Anh Minh", "Chị Lan", "Chú Hùng", "Cô Mai", "Bạn Tuấn", "Chị Hoa", "Bác Dũng", "Cô Nga"];
         const cities = ["Hà Nội", "TP. HCM", "Đà Nẵng", "Hải Phòng", "Cần Thơ", "Quảng Ngãi", "Nha Trang", "Huế"]; // Added Quảng Ngãi
         const products = ["Sách Mẹo Nhớ Huyệt", "Combo 2 Sách"];
+        let popupIntervalId = null; // Store interval ID
 
         function showFakeOrder() {
             if (!popupContainer) return;
@@ -847,6 +945,7 @@
                 popup.classList.remove('show');
                 popup.classList.add('hide');
                 setTimeout(() => {
+                    // Check if popup still exists before removing
                     if (popup.parentNode === popupContainer) {
                         popupContainer.removeChild(popup);
                     }
@@ -856,8 +955,12 @@
 
         // Show a popup randomly every 8-15 seconds
         function schedulePopup() {
+             // Clear previous interval if any to prevent duplicates on potential re-runs
+             if (popupIntervalId) {
+                 clearTimeout(popupIntervalId);
+             }
              const delay = Math.random() * 7000 + 8000; // 8-15 seconds
-             setTimeout(() => {
+             popupIntervalId = setTimeout(() => {
                  showFakeOrder();
                  schedulePopup(); // Schedule next one
              }, delay);
@@ -866,6 +969,50 @@
         if (popupContainer) {
              schedulePopup(); // Start the popup cycle
         }
+
+         // Add lazy loading to images
+         document.addEventListener("DOMContentLoaded", function() {
+            var lazyImages = [].slice.call(document.querySelectorAll("img[loading='lazy']"));
+
+            if ("IntersectionObserver" in window) {
+                let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                    let lazyImage = entry.target;
+                    lazyImage.src = lazyImage.dataset.src || lazyImage.src; // Use data-src if available, otherwise use src
+                    lazyImage.removeAttribute("loading"); // Optional: Remove loading attribute after load
+                    lazyImageObserver.unobserve(lazyImage);
+                    }
+                });
+                });
+
+                lazyImages.forEach(function(lazyImage) {
+                 lazyImageObserver.observe(lazyImage);
+                });
+            } else {
+                // Fallback for browsers that don't support IntersectionObserver
+                lazyImages.forEach(function(lazyImage) {
+                    lazyImage.src = lazyImage.dataset.src || lazyImage.src;
+                    lazyImage.removeAttribute("loading");
+                });
+            }
+
+             // Ensure JS runs after DOM is ready
+             if (timerElement && !timerInterval) {
+                 updateTimer(); // Initial call
+                 timerInterval = setInterval(updateTimer, 1000);
+             }
+             if (popupContainer && !popupIntervalId) {
+                 schedulePopup();
+             }
+             if (citySelect && districtSelect && wardSelect && streetInput && finalAddressDiv) {
+                 // Initial population if needed, or ensure event listeners are attached
+                 if(citySelect.options.length <= 1) { // Populate only if not already populated
+                    populateSelect(citySelect, Object.keys(addressData));
+                 }
+             }
+         });
+
 
     </script>
 
