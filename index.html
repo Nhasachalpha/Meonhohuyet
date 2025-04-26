@@ -1,461 +1,873 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Sách Mẹo Nhớ Huyệt - Landing Page Chuyên Nghiệp</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- TailwindCSS -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css"/>
-  <!-- Google Fonts -->
-  <link href="https://cdn.jsdelivr.net/npm/@fontsource/roboto@3.3.1/400.css" rel="stylesheet" />
-  <style>
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Roboto', Arial, sans-serif; background-color: #f8fafc;}
-    .slider { position:relative; overflow: hidden; }
-    .slider img { max-height: 330px; object-fit:cover; width: 100%; }
-    .slider-btn { background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 9999px; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;}
-    .floating-btn { position: fixed; bottom: 24px; right: 24px; z-index: 100; background-color: #e53e3e; color: #fff; border-radius: 9999px; padding: 16px 28px; box-shadow: 0 4px 16px rgba(0,0,0,0.18); font-size: 20px; font-weight: bold; cursor: pointer; transition: transform 0.14s;}
-    .floating-btn:hover { transform: scale(1.04);}
-    .marquee { overflow:hidden; white-space:nowrap; }
-    .marquee span { display:inline-block; padding-right:32px; color:#283747;}
-    .timer-item { display: flex; flex-direction: column; align-items: center;}
-    .timer-digit { font-size: 1.8rem; font-weight: 700; color: #e53e3e; }
-    .timer-label { font-size: .74rem; color: #555;}
-    /* No horizontal scrolls in PDF export */
-    ::-webkit-scrollbar {height:0;width:9px;background:#e2e8f0;}
-    ::-webkit-scrollbar-thumb {background:#a0aec0;border-radius:6px;}
-    @media print {
-      .floating-btn, #effect-orders { display: none !important }
-    }
-  </style>
-</head>
-<body>
-  <!-- Banner và Giá -->
-  <div class="relative bg-gradient-to-br from-rose-100 via-pink-50 to-blue-50 pt-8 pb-2 px-3">
-    <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center">
-      <div class="w-full md:w-2/5 flex-shrink-0">
-        <!-- Slider Ảnh Sách -->
-        <div class="slider mt-2" id="book-slider">
-          <img id="slider-image" src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=400&q=80" alt="Bìa sách Mẹo Nhớ Huyệt">
-          <button id="slider-prev" class="slider-btn absolute top-1/2 left-2 transform -translate-y-1/2"><i class="fas fa-chevron-left"></i></button>
-          <button id="slider-next" class="slider-btn absolute top-1/2 right-2 transform -translate-y-1/2"><i class="fas fa-chevron-right"></i></button>
-        </div>
-        <div class="text-center text-xs text-gray-500 mt-1">*Hình ảnh sách & nội dung thực tế</div>
-      </div>
-      <div class="w-full md:w-3/5 md:pl-10 md:mt-0 mt-8">
-        <h1 class="text-3xl md:text-4xl font-extrabold text-rose-700 mb-1">MẸO NHỚ HUYỆT</h1>
-        <div class="flex flex-col md:flex-row items-center md:space-x-6 my-3">
-          <div>
-            <div class="flex items-end space-x-2">
-              <div class="text-lg text-gray-700 font-semibold opacity-80">Giá gốc:</div>
-              <div class="text-xl line-through text-gray-500 opacity-70">500.000đ</div>
-            </div>
-            <div class="flex items-end space-x-2">
-              <div class="text-lg text-gray-700 font-semibold opacity-80">Giá KM:</div>
-              <div class="text-3xl font-bold text-green-600">229.000đ</div>
-            </div>
-            <div class="flex items-center text-sm mt-1">
-              <span class="bg-yellow-300 text-yellow-900 px-2 py-1 rounded-lg font-semibold">Tiết kiệm 54%</span>
-            </div>
-          </div>
-          <div class="mt-4 md:mt-0">
-            <div class="flex items-end space-x-2">
-              <div class="text-lg text-gray-700 font-semibold opacity-80">Combo (kèm <span class="underline">Liệu pháp chữa bệnh toàn Thân khu phản xạ</span>):</div>
-            </div>
-            <div class="flex items-end space-x-3 flex-wrap">
-              <div class="text-lg line-through text-gray-500 opacity-70">708.000đ</div>
-              <div class="text-2xl text-rose-700 font-bold">Chỉ còn 349.000đ</div>
-              <span class="bg-blue-100 text-blue-800 rounded px-2 py-1 font-semibold">Combo giảm 359K</span>
-            </div>
-            <div class="text-xs text-green-600 mt-1 italic">*Số lượng khuyến mãi combo có hạn*</div>
-          </div>
-        </div>
-        <!-- Đếm ngược thời gian -->
-        <div class="flex items-center space-x-2 mt-4 mb-2">
-          <div class="font-bold text-gray-700 flex items-center"><i class="fas fa-clock mr-1"></i> KHUYẾN MÃI KẾT THÚC SAU:</div>
-          <div id="timer" class="flex space-x-2 ml-2"></div>
-        </div>
-        <div class="marquee mt-2">
-          <span><i class="fas fa-gift text-rose-700"></i> Mua sách tặng video bài giảng & tài liệu hỗ trợ!</span>
-          <span><i class="fas fa-shipping-fast text-green-600"></i> Freeship toàn quốc!</span>
-          <span><i class="fas fa-phone-alt text-blue-600"></i> Tư vấn tận tình - Hỗ trợ 1-1!</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Chính sách -->
-  <div class="max-w-3xl mx-auto px-2 mt-6">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-base mb-1 ">
-      <div class="flex items-center p-3 bg-white rounded-xl shadow-sm border ">
-        <i class="fas fa-undo-alt text-2xl text-amber-500 mr-3"></i> <span>Đổi/trả dễ dàng trong 7 ngày</span>
-      </div>
-      <div class="flex items-center p-3 bg-white rounded-xl shadow-sm border ">
-        <i class="fas fa-shipping-fast text-2xl text-blue-500 mr-3"></i> <span>Miễn phí giao hàng toàn quốc</span>
-      </div>
-      <div class="flex items-center p-3 bg-white rounded-xl shadow-sm border ">
-        <i class="fas fa-shield-alt text-2xl text-green-600 mr-3"></i> <span>Bảo hành in lỗi nội dung đổi mới 1-1</span>
-      </div>
-    </div>
-  </div>
-  <!-- Nút Đặt hàng nổi -->
-  <button onclick="scrollToOrder()" class="floating-btn shadow-xl flex items-center gap-2">
-    <i class="fas fa-cart-plus text-2xl animate-bounce"></i> Đặt hàng ngay
-  </button>
-  <!-- Nội dung chi tiết chương sách -->
-  <div class="max-w-5xl mx-auto px-2 lg:px-0 py-10" id="noidung">
-    <h2 class="text-2xl md:text-3xl text-rose-800 font-bold mb-3">Nội dung chi tiết sách <span class="text-blue-700">MẸO NHỚ HUYỆT</span></h2>
-    <div class="bg-white rounded-lg shadow-sm p-4 border">
-      <h3 class="text-xl text-rose-700 font-semibold my-2">PHẦN 1: MẸO NHỚ HUYỆT – Quy tắc xác định chung</h3>
-      <div class="space-y-2">
-        <div>
-          <strong>1. Vùng vai gáy lưng:</strong>
-          <span class="text-gray-700 text-sm block mb-1">Phong Phủ, Phong Trì, Đại Chùy, Thân Trụ, Chí Dương, Kiên Ngung, Kiên Tỉnh, Kiên Trinh, Nhu Du, Cánh Cân, Thiên Tông, Cao Hoang, Phế Du, Tâm Du, Cách Du, Can Du, Đởm Du, Tỳ Du, Vị Du, Thận Du, Chí Thất, Mệnh Môn, Yêu Nhãn, Bát Liêu, Trật Biên, Hoàn Khiêu</span>
-        </div>
-        <div>
-          <strong>2. Vùng tay:</strong>
-          <span class="text-gray-700 text-sm block mb-1">Thiếu Thương, Lao Cung, Ngư Tế, Thần Môn, Đại Lăng, Nội Quan, Liệt Khuyết, Xích Trạch, Hợp Cốc, Lạc Chẩm, Trung Chử, Ngoại Quan, Thủ Tam Lý, Khúc Trì, Tỳ Nhu, Tiểu Hải</span>
-        </div>
-        <div>
-          <strong>3. Vùng ngực:</strong>
-          <span class="text-gray-700 text-sm block mb-1">Vân Môn, Trung Phủ, Đản Trung, Thiên Đột, Ốc Ế, Thiên Trì, Nhũ Căn, Kỳ Môn</span>
-        </div>
-        <div>
-          <strong>4. Vùng bụng:</strong>
-          <span class="text-gray-700 text-sm block mb-1">Cự Khuyết, Chương Môn, Trung Quản, Thần Khuyết, Khí Hải</span>
-        </div>
-        <div>
-          <strong>5. Vùng chân mặt trước:</strong>
-          <span class="text-gray-700 text-sm block mb-1">Quan Nguyên, Thiên Khu, Lương Môn, Trung Cực, Trung Đột, Âm Lăng Tuyền, Huyết Hải, Lương Khâu, Thừa Phù, Phong Thị, Ủy Trung</span>
-        </div>
-        <div>
-          <strong>6. Vùng chân mặt sau:</strong>
-          <span class="text-gray-700 text-sm block mb-1">Bách Trung Độc, Trung Độc, Dương Bạch, Thừa Khấp, Túc Khổng, Nghinh Hương, Tình Minh, Thái Dương, Tình Túc, Túc Tam Lý, Thừa Sơn, Âm Giao, Túc Thái Dương, Quyền Liêu</span>
-        </div>
-        <div>
-          <strong>7. Vùng đầu - mặt:</strong>
-          <span class="text-gray-700 text-sm block mb-1">Nhân Trung, Thừa Tương, Địa Thương, Giáp Xa, Hạ Quan, Thính Cung, Nhĩ Môn, Ế Phong, Ấn Đường, Ngạch Trung, Thần Đình, Đầu Duy, Suất Cốc, Bách Hội, Tứ Thần Thông</span>
-        </div>
-      </div>
-      <h3 class="text-xl text-rose-700 font-semibold mt-5 mb-2">PHẦN 2: Ứng dụng ấn huyệt trong chăm sóc sức khỏe tại nhà</h3>
-      <div>
-        <div>
-          <strong>Chương 1: Phạm vi, Phương pháp và Quy tắc ấn huyệt</strong>
-          <span class="block text-gray-700 text-sm">Hướng dẫn căn bản về cách xác định, thao tác, và lưu ý an toàn trong quá trình thực hành bấm - ấn huyệt.</span>
-        </div>
-        <div class="mt-2">
-          <strong>Chương 2: Thực hành ấn huyệt cho các triệu chứng thường gặp</strong>
-          <ul class="list-disc list-inside text-gray-800 text-sm mt-1 grid md:grid-cols-2 gap-x-6">
-            <li>Nhức mỏi mắt</li><li>Ù tai</li><li>Viêm xoang</li>
-            <li>Trị ho rát họng</li><li>Giúp tăng cường trí nhớ</li>
-            <li>Đau đầu</li><li>Cải thiện rối loạn tiền đình</li>
-            <li>Đau dây thần kinh số V, VII</li>
-            <li>Viêm quanh khớp vai</li>
-            <li>Đau tê vai cánh tay</li>
-            <li>Đau lưng hông</li>
-            <li>Ra mồ hôi tay</li>
-            <li>Hội chứng ống cổ tay</li>
-            <li>Chuột rút/căng chân</li>
-            <li>Đau gót chân</li>
-            <li>Tăng cường sinh lý</li>
-            <li>Đau thần kinh tọa</li>
-            <li>Tắc tia sữa</li>
-            <li>Đau dây thần kinh liên sườn</li>
-            <li>Chướng bụng đầy hơi</li>
-            <li>Táo bón</li><li>Đau bụng kinh</li>
-            <li>Say tàu xe</li><li>Nấc</li>
-            <li>Mất ngủ</li><li>Cảm cúm</li>
-            <li>Phục hồi sau tai biến</li>
-            <li>Huyết áp cao/thấp</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Slider ảnh minh họa nội dung sách -->
-  <div class="max-w-5xl mx-auto px-2 flex flex-wrap gap-4 py-6 justify-center" id="illustrations">
-    <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=350&q=80" alt="Nội dung minh họa 1" class="rounded-lg shadow-sm border w-48 h-64 object-cover">
-    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=350&q=80" alt="Nội dung minh họa 2" class="rounded-lg shadow-sm border w-48 h-64 object-cover">
-    <img src="https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?auto=format&fit=crop&w=350&q=80" alt="Nội dung minh họa 3" class="rounded-lg shadow-sm border w-48 h-64 object-cover">
-    <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=350&q=80" alt="Nội dung minh họa 4" class="rounded-lg shadow-sm border w-48 h-64 object-cover">
-  </div>
-  <!-- Đánh giá khách hàng -->
-  <div class="max-w-5xl mx-auto px-2 py-1">
-    <h3 class="text-xl font-bold text-gray-800 mb-3">Đánh giá thực tế từ khách hàng</h3>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="bg-white rounded-lg shadow border p-3 flex">
-        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Người đánh giá" class="rounded-full w-14 h-14 object-cover mr-3 mt-1 flex-shrink-0 border">
-        <div>
-          <div class="flex items-center space-x-2">
-            <span class="font-semibold text-gray-700">Nguyễn Văn Mẫn</span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-          </div>
-          <div class="text-gray-600 text-sm mt-1 italic">"Sách dễ hiểu, phần mẹo ghi nhớ cực kỳ hữu ích, ứng dụng hàng ngày chăm sóc sức khỏe cho gia đình."</div>
-          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=200&q=80" class="mt-2 rounded shadow border w-24 h-24 object-cover" alt="Đọc sách thực tế">
-        </div>
-      </div>
-      <div class="bg-white rounded-lg shadow border p-3 flex">
-        <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Người đánh giá" class="rounded-full w-14 h-14 object-cover mr-3 mt-1 flex-shrink-0 border">
-        <div>
-          <div class="flex items-center space-x-2">
-            <span class="font-semibold text-gray-700">Trần Huyền Trang</span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-          </div>
-          <div class="text-gray-600 text-sm mt-1 italic">"Mình là mẹ bỉm, đọc sách này biết bấm huyệt giảm đau vai gáy, hỗ trợ chăm sóc em bé rất tốt. Shop còn tặng thêm video hướng dẫn chi tiết!"</div>
-          <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=200&q=80" class="mt-2 rounded shadow border w-24 h-24 object-cover" alt="Ảnh thực tế sách">
-        </div>
-      </div>
-      <div class="bg-white rounded-lg shadow border p-3 flex">
-        <img src="https://randomuser.me/api/portraits/men/83.jpg" alt="Người đánh giá" class="rounded-full w-14 h-14 object-cover mr-3 mt-1 flex-shrink-0 border">
-        <div>
-          <div class="flex items-center space-x-2">
-            <span class="font-semibold text-gray-700">Bùi Tuấn Hưng</span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-            <span class="text-yellow-500"><i class="fas fa-star"></i></span>
-          </div>
-          <div class="text-gray-600 text-sm mt-1 italic">"Hình ảnh, chú thích rõ ràng dễ học. Combo 2 cuốn siêu tiết kiệm, giao hàng nhanh, đóng gói kỹ."</div>
-          <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=200&q=80" class="mt-2 rounded shadow border w-24 h-24 object-cover" alt="Đánh giá sách combo">
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Hiệu ứng người đã đặt -->
-  <div id="effect-orders"></div>
-  <!-- Form đặt hàng -->
-  <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl my-9 p-6 border" id="order-section">
-    <h2 class="text-2xl font-bold text-rose-700 mb-2">Đặt mua sách ngay</h2>
-    <form id="order-form" class="space-y-4">
-      <input type="hidden" name="date" id="form-date">
-      <div>
-        <label class="font-semibold block mb-1 text-sm">Họ và tên <span class="text-rose-500">*</span></label>
-        <input name="name" required type="text" class="w-full border px-3 py-2 rounded outline-none focus:ring-2 focus:ring-blue-300" autocomplete="off">
-      </div>
-      <div>
-        <label class="font-semibold block mb-1 text-sm">Số điện thoại <span class="text-rose-500">*</span></label>
-        <input name="phone" required pattern="^0[0-9]{9,10}$" maxlength="11" type="tel" class="w-full border px-3 py-2 rounded outline-none focus:ring-2 focus:ring-blue-300" autocomplete="off" placeholder="VD: 0912345678">
-      </div>
-      <div>
-        <label class="font-semibold block mb-1 text-sm">Địa chỉ <span class="text-rose-500">*</span></label>
-        <div class="flex flex-wrap gap-2 mb-1">
-          <select id="city" required class="border rounded px-2 py-1" autocomplete="off">
-            <option value="">Chọn Tỉnh/TP</option>
-          </select>
-          <select id="district" required disabled class="border rounded px-2 py-1" autocomplete="off">
-            <option value="">Chọn Quận/Huyện</option>
-          </select>
-          <select id="ward" required disabled class="border rounded px-2 py-1" autocomplete="off">
-            <option value="">Chọn Phường/Xã</option>
-          </select>
-        </div>
-        <input type="text" name="address" required readonly class="w-full border px-3 py-2 rounded bg-gray-100" id="final_address" autocomplete="off" placeholder="Địa chỉ cụ thể (Tỉnh/TP, Quận/Huyện, Phường/Xã)">
-      </div>
-      <div>
-        <label class="font-semibold block mb-1 text-sm">Đặt mua</label>
-        <select name="don_hang" required class="w-full border rounded px-3 py-2">
-          <option value="Mẹo Nhớ Huyệt - 229K">Mẹo Nhớ Huyệt (229.000đ)</option>
-          <option value="Liệu pháp chữa bệnh toàn Thân khu phản xạ - 179K">Liệu pháp chữa bệnh toàn Thân khu phản xạ (179.000đ)</option>
-          <option value="Combo cả 2 sách - 349K">Combo cả 2 sách (Cực ưu đãi 349.000đ)</option>
-        </select>
-      </div>
-      <div>
-        <label class="font-semibold block mb-1 text-sm">Ghi chú thêm cho shop <span class="text-xs text-gray-400 italic">(tuỳ chọn)</span></label>
-        <textarea name="Note" class="w-full border px-3 py-2 rounded" rows="2" maxlength="255" placeholder="Ví dụ: Giao ngoài giờ hành chính, tặng thêm túi vải,..."></textarea>
-      </div>
-      <div>
-        <button type="submit" class="w-full py-3 rounded bg-rose-700 text-white font-semibold text-lg shadow hover:bg-rose-800 transition-colors">Xác nhận đặt hàng</button>
-      </div>
-    </form>
-    <div id="form-success" class="hidden mt-4 text-center text-green-700 bg-green-100 p-4 rounded shadow text-lg font-semibold">
-      <i class="fas fa-check-circle text-2xl"></i> <br>
-      Đặt hàng thành công! Shop sẽ liên hệ xác nhận trong ít phút nữa. Xin cảm ơn quý khách!
-    </div>
-    <div id="form-error" class="hidden mt-4 text-center text-red-700 bg-red-100 p-3 rounded shadow text-lg font-semibold">
-      Đã xảy ra lỗi, vui lòng thử lại hoặc đặt hàng qua số hotline <b>0988.XXX.XXX</b>
-    </div>
-  </div>
-  <script>
-    // Dữ liệu slider sách
-    const sliderImages = [
-      "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=400&q=80", // Bìa sách
-      "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80", // Trang minh họa
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",  // Trang bài học trong sách
-      "https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?auto=format&fit=crop&w=400&q=80", // Trích đoạn hướng dẫn
-      "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=400&q=80", // Ứng dụng huyệt
-    ];
-    let sliderIdx = 0;
-    function updateSlider() {
-      document.getElementById('slider-image').src = sliderImages[sliderIdx];
-    }
-    document.getElementById('slider-prev').onclick = function() {
-      sliderIdx = (sliderIdx === 0) ? sliderImages.length - 1 : sliderIdx - 1;
-      updateSlider();
-    }
-    document.getElementById('slider-next').onclick = function() {
-      sliderIdx = (sliderIdx + 1) % sliderImages.length;
-      updateSlider();
-    }
-    // --- Countdown Timer
-    function updateTimer() {
-      // Sale ends in 3 days from now!
-      var saleEnd = new Date();
-      saleEnd.setDate(saleEnd.getDate() + 3);
-      saleEnd.setHours(23,59,59,0);
-      var now = new Date();
-      var diff = saleEnd - now;
-      if (diff < 0) diff = 0;
-      var d = Math.floor(diff/86400000),
-          h = Math.floor((diff%86400000)/3600000),
-          m = Math.floor((diff%3600000)/60000),
-          s = Math.floor((diff%60000)/1000);
-      document.getElementById('timer').innerHTML = `
-        <div class="timer-item"><span class="timer-digit">${d}</span><span class="timer-label">ngày</span></div>
-        <div class="timer-digit">:</div>
-        <div class="timer-item"><span class="timer-digit">${String(h).padStart(2,'0')}</span><span class="timer-label">giờ</span></div>
-        <div class="timer-digit">:</div>
-        <div class="timer-item"><span class="timer-digit">${String(m).padStart(2,'0')}</span><span class="timer-label">phút</span></div>
-        <div class="timer-digit">:</div>
-        <div class="timer-item"><span class="timer-digit">${String(s).padStart(2,'0')}</span><span class="timer-label">giây</span></div>`;
-      setTimeout(updateTimer, 1000);
-    }
-    updateTimer();
+    <meta charset="UTF-8">
+    <title>Sách Mẹo Nhớ Huyệt - Landing Page Chuyên Nghiệp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sách Mẹo Nhớ Huyệt giúp bạn dễ dàng ghi nhớ vị trí huyệt đạo và ứng dụng bấm huyệt chăm sóc sức khỏe tại nhà. Ưu đãi đặc biệt, Freeship toàn quốc.">
+    <meta name="keywords" content="mẹo nhớ huyệt, sách đông y, bấm huyệt, huyệt đạo, chăm sóc sức khỏe, y học cổ truyền">
 
-    // Nút Đặt hàng nổi
-    function scrollToOrder(){
-      document.getElementById("order-section").scrollIntoView({behavior: 'smooth', block: 'start'});
-    }
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    // Giao diện chọn thành phố, quận huyện, phường xã
-    let citySelect = document.getElementById("city"), districtSelect = document.getElementById("district"), wardSelect = document.getElementById("ward"), addressInput = document.getElementById("final_address");
-    let dataAddress = {};
-    fetch('https://provinces.open-api.vn/api/?depth=3')
-      .then(res=>res.json())
-      .then(data=>{
-        dataAddress = data;
-        // Load tỉnh/thành
-        data.forEach(tp => {
-          var op = document.createElement('option');
-          op.value = tp.name;
-          op.text = tp.name;
-          citySelect.appendChild(op);
-        });
-      });
-    citySelect.onchange = function() {
-      let val = citySelect.value, dis=[];
-      districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
-      wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
-      wardSelect.disabled = true;
-      if (val==='') {districtSelect.disabled=true;return;}
-      let tp = dataAddress.find(item => item.name === val);
-      tp.districts.forEach(qh => {
-        var op = document.createElement('option'); op.value=qh.name; op.text=qh.name;
-        districtSelect.appendChild(op);
-      });
-      districtSelect.disabled=false;
-      updateAddress();
-    }
-    districtSelect.onchange = function() {
-      let valCity = citySelect.value;
-      let valDistrict = districtSelect.value;
-      wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
-      if (valDistrict==='') {wardSelect.disabled=true;return;}
-      let tp = dataAddress.find(item => item.name===valCity);
-      let qh = tp.districts.find(dist=> dist.name===valDistrict);
-      qh.wards.forEach(xa=>{
-        var op = document.createElement('option'); op.value=xa.name; op.text=xa.name;
-        wardSelect.appendChild(op);
-      });
-      wardSelect.disabled=false;
-      updateAddress();
-    }
-    wardSelect.onchange = updateAddress;
-    function updateAddress(){
-      let parts = [];
-      if(wardSelect.value) parts.push(wardSelect.value);
-      if(districtSelect.value) parts.push(districtSelect.value);
-      if(citySelect.value) parts.push(citySelect.value);
-      addressInput.value = parts.join(', ');
-    }
-    // --- Form đặt hàng
-    document.getElementById('form-date').value = new Date().toLocaleString('vi-VN');
-    document.getElementById('order-form').onsubmit = function(e){
-      e.preventDefault();
-      // Validate
-      var fd = new FormData(e.target);
-      let address = document.getElementById("final_address").value.trim();
-      if (!address) { alert("Vui lòng chọn đầy đủ Tỉnh/Thành, Quận/Huyện, Phường/Xã"); return false; }
-      fd.set('address', address);
-      // Google Sheet DB endpoint
-      fetch('https://sheetdb.io/api/v1/fg5880qtxha50', {
-        method:'POST',
-        body: fd,
-      }).then(r=>r.json()).then(d=>{
-        if(d.created||d.length||d.success){
-          document.getElementById('order-form').classList.add('hidden');
-          document.getElementById('form-success').classList.remove('hidden');
-          document.getElementById('form-error').classList.add('hidden');
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1709833452952856'); // Replace with your Pixel ID
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1709833452952856&ev=PageView&noscript=1" // Replace with your Pixel ID
+    /></noscript>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Roboto', Arial, sans-serif; background-color: #f7f8fc; /* Slightly different background */ }
+
+        /* Slider Styling */
+        .slider { position:relative; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .slider img { display: block; max-height: 350px; /* Slightly taller */ object-fit:cover; width: 100%; transition: opacity 0.5s ease-in-out; } /* Use opacity for smoother transition */
+        .slider:hover img { /* transform: scale(1.03); Optional hover effect */ }
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6); /* Darker background */
+            color: #fff;
+            border: none;
+            border-radius: 50%; /* Fully rounded */
+            width: 40px; /* Larger buttons */
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+            z-index: 10;
         }
-        else throw new Error('Not success');
-      }).catch(err=>{
-        document.getElementById('form-error').classList.remove('hidden');
-      });
-      return false;
-    };
+        .slider-btn:hover { background: rgba(0, 0, 0, 0.8); transform: translateY(-50%) scale(1.1); }
+        #slider-prev { left: 10px; }
+        #slider-next { right: 10px; }
 
-    // Hiệu ứng người đã đặt hàng
-    const fakeOrders = [
-      {name:"Chị Ngọc", city:"Hà Nội", product:"Combo 2 sách", time:"2 phút trước"},
-      {name:"Anh Tuấn", city:"Hải Phòng", product:"Mẹo Nhớ Huyệt", time:"5 phút trước"},
-      {name:"Cô Huệ", city:"Đà Nẵng", product:"Liệu pháp chữa bệnh", time:"7 phút trước"},
-      {name:"Hùng", city:"TP.HCM", product:"Combo 2 sách", time:"12 phút trước"},
-      {name:"Trà My", city:"Cần Thơ", product:"Mẹo Nhớ Huyệt", time:"20 phút trước"},
-      {name:"Chị Hà", city:"Bắc Ninh", product:"Mẹo Nhớ Huyệt", time:"23 phút trước"},
-      {name:"Ngọc Dũng", city:"Vinh", product:"Combo 2 sách", time:"29 phút trước"},
-      {name:"Tiến", city:"Hà Nội", product:"Liệu pháp chữa bệnh", time:"45 phút trước"},
-    ];
-    let orderIdx = 0;
-    function showOrderEffect(){
-      let o = fakeOrders[orderIdx];
-      if(!o) orderIdx=0,o=fakeOrders[0];
-      let div = document.createElement("div");
-      div.className = "fixed left-4 bottom-8 bg-white shadow-xl px-5 py-3 rounded-2xl flex items-center space-x-3 border border-green-600 z-50 animate-bounceIn";
-      div.innerHTML = `<i class="fas fa-user-circle text-green-600 text-2xl"></i>
-        <div><b>${o.name}</b> - <span class="text-sm">${o.city}</span><br>
-          <span class="text-blue-700 font-semibold">${o.product}</span><br>
-          <span class="text-xs italic text-gray-400">${o.time}</span></div>`;
-      document.body.appendChild(div);
-      setTimeout(()=>{ div.classList.add('opacity-0'); setTimeout(()=>div.remove(), 600); }, 3800 + Math.random()*1200);
-      orderIdx = (orderIdx+1)%fakeOrders.length;
-      setTimeout(showOrderEffect, 5200+Math.random()*1500);
-    }
-    showOrderEffect();
+        /* Floating CTA Button */
+        .floating-btn {
+            position: fixed;
+            bottom: 20px; /* Adjusted position */
+            right: 20px;
+            z-index: 100;
+            background: linear-gradient(45deg, #ef4444, #dc2626); /* Gradient background */
+            color: #fff;
+            border-radius: 9999px;
+            padding: 14px 24px; /* Adjusted padding */
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4); /* Enhanced shadow */
+            font-size: 18px; /* Adjusted font size */
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .floating-btn:hover {
+            transform: scale(1.05) translateY(-2px); /* More noticeable hover effect */
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+        }
+        .floating-btn .fa-cart-plus { animation: bounceCart 1.5s infinite ease-in-out; }
 
-    // --- Animate BounceIn
-    var style = document.createElement('style');
-    style.innerHTML = `
-      @keyframes bounceIn{
-        0% {transform: scale(0.5) translateY(80px); opacity:0;}
-        50% {transform: scale(1.12) translateY(-10px);}
-        75% {transform: scale(0.96) translateY(2px);}
-        100% {transform: scale(1) translateY(0); opacity:1;}
-      }
-      .animate-bounceIn {
-        animation: bounceIn 1s cubic-bezier(.7,-0.5,.2,1.6);
-      }
-    `;
-    document.head.appendChild(style);
-  </script>
+        /* Marquee Styling */
+        .marquee { overflow:hidden; white-space:nowrap; background-color: #e0f2fe; /* Light blue background */ padding: 8px 0; border-radius: 8px; }
+        .marquee span { display:inline-block; padding: 0 24px; /* Adjusted padding */ color:#0c4a6e; /* Darker blue text */ font-weight: 500; animation: marqueeAnim 20s linear infinite; }
+        .marquee span i { margin-right: 6px; }
+
+        /* Countdown Timer Styling */
+        #timer { display: flex; align-items: center; gap: 8px; /* Use gap for spacing */ }
+        .timer-item { display: flex; flex-direction: column; align-items: center; background-color: #fee2e2; /* Light red background */ padding: 5px 8px; border-radius: 6px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1); min-width: 40px; /* Ensure minimum width */ }
+        .timer-digit { font-size: 1.6rem; /* Slightly smaller */ font-weight: 700; color: #dc2626; /* Stronger red */ line-height: 1.1; }
+        .timer-label { font-size: .7rem; /* Slightly smaller */ color: #7f1d1d; /* Darker red text */ text-transform: uppercase; letter-spacing: 0.5px; }
+        .timer-separator { font-size: 1.5rem; color: #ef4444; font-weight: bold; padding-bottom: 10px; /* Align with digits */ }
+
+        /* Form Styling */
+        #order-form label { font-weight: 600; /* Bolder labels */ color: #374151; /* Darker gray */}
+        #order-form input, #order-form select, #order-form textarea {
+            border: 1px solid #d1d5db; /* Standard border */
+            border-radius: 8px; /* More rounded */
+            padding: 10px 12px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            width: 100%; /* Ensure full width */
+        }
+        #order-form input:focus, #order-form select:focus, #order-form textarea:focus {
+            outline: none;
+            border-color: #fb7185; /* Rose color focus */
+            box-shadow: 0 0 0 3px rgba(251, 113, 133, 0.3);
+        }
+        #order-form select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; }
+        #order-form button[type='submit'] {
+            background: linear-gradient(45deg, #f43f5e, #be123c); /* Red gradient */
+            transition: background 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 4px 10px rgba(225, 29, 72, 0.3);
+            font-weight: 700; /* Bolder text */
+            width: 100%; /* Full width button */
+            padding-top: 12px;
+            padding-bottom: 12px;
+            border-radius: 9999px; /* Pill shape */
+            color: white;
+            font-size: 1.1rem;
+        }
+        #order-form button[type='submit']:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(225, 29, 72, 0.4);
+        }
+        #final_address { background-color: #f3f4f6; cursor: not-allowed; border-radius: 8px; padding: 10px 12px; font-size: 0.9em; color: #4b5563; } /* Visually indicate readonly */
+
+        /* Success/Error Message Styling */
+        #form-success, #form-error { border-radius: 8px; padding: 12px 16px; margin-top: 16px; font-size: 0.95em; }
+        #form-success { border: 1px solid #10b981; background-color: #d1fae5; color: #065f46; }
+        #form-error { border: 1px solid #ef4444; background-color: #fee2e2; color: #991b1b; }
+
+        /* Fake Order Popup Styling */
+        .fake-order-popup {
+            position: fixed;
+            left: 16px;
+            bottom: -100px; /* Start off-screen */
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            padding: 12px 16px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #e5e7eb;
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bounce effect */
+            max-width: 320px; /* Limit width */
+        }
+        .fake-order-popup.show {
+            opacity: 1;
+            transform: translateY(-116px); /* Move up (bottom: 16px + 100px offset) */
+        }
+        .fake-order-popup.hide {
+            opacity: 0;
+            transform: translateY(0); /* Move back down */
+        }
+        .fake-order-popup i { color: #10b981; /* Green icon */ font-size: 1.8rem; flex-shrink: 0; }
+        .fake-order-popup div { display: flex; flex-direction: column; }
+        .fake-order-popup b { color: #1f2937; }
+        .fake-order-popup .city { color: #6b7280; font-size: 0.9em; }
+        .fake-order-popup .product { color: #be123c; /* Rose color */ font-weight: 600; font-size: 0.95em; }
+        .fake-order-popup .time { color: #9ca3af; font-size: 0.8em; font-style: italic; margin-top: 2px; }
+
+
+        /* No horizontal scrolls */
+        body { overflow-x: hidden; }
+        ::-webkit-scrollbar { height: 0; width: 8px; background: #e5e7eb; }
+        ::-webkit-scrollbar-thumb { background: #9ca3af; border-radius: 6px; }
+
+        /* Print styles */
+        @media print {
+            .floating-btn, #effect-orders, .fake-order-popup, .slider-btn, #timer-section, .marquee-section, header button, #order-form button[type='submit'] { display: none !important }
+            body { background-color: #fff; }
+            .shadow-xl, .shadow-lg, .shadow-md, .shadow-sm, .shadow { box-shadow: none !important; }
+            .border { border: 1px solid #ccc !important; }
+            h1, h2, h3 { color: #000 !important; }
+            #order-section { border: none !important; padding: 0; }
+            #order-form select, #order-form input { border: 1px solid #ccc !important; }
+            .bg-gradient-to-br, .bg-gradient-to-b, .bg-gray-100, .bg-white\/70, .bg-rose-50 { background: none !important; background-color: white !important; }
+            header { padding-top: 20px; padding-bottom: 20px; }
+            section { padding-top: 20px; padding-bottom: 20px; }
+            #noidung .bg-gradient-to-b { background: white !important; }
+            #order-section .bg-gradient-to-b { background: white !important; }
+            .text-rose-700, .text-rose-600, .text-green-600, .text-blue-700 { color: #000 !important; }
+            .text-gray-600, .text-gray-700, .text-gray-800 { color: #333 !important; }
+        }
+
+        /* Animations */
+        @keyframes marqueeAnim {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        @keyframes bounceCart {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.1); }
+        }
+        /* Open details animation */
+        details[open] summary ~ * {
+            animation: sweep .5s ease-in-out;
+        }
+        @keyframes sweep {
+            0%    {opacity: 0; transform: translateY(-10px)}
+            100%  {opacity: 1; transform: translateY(0)}
+        }
+        details summary::-webkit-details-marker { display:none; } /* Hide default marker */
+        details summary { list-style: none; } /* Hide default marker for Firefox */
+
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="relative bg-gradient-to-br from-rose-50 via-pink-50 to-blue-100 pt-10 pb-6 px-4 md:px-6">
+        <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+            <div class="w-full lg:w-2/5 flex-shrink-0">
+                <div class="slider" id="book-slider">
+                    <img id="slider-image" src="https://placehold.co/500x700/fbcfe8/4a044e?text=Bìa+Sách+1" alt="Bìa sách Mẹo Nhớ Huyệt">
+                    <img src="https://placehold.co/500x700/fecaca/7f1d1d?text=Bìa+Sách+2" alt="Hình ảnh bên trong sách 1" style="display: none;">
+                    <img src="https://placehold.co/500x700/ccfbf1/064e3b?text=Bìa+Sách+3" alt="Hình ảnh bên trong sách 2" style="display: none;">
+                    <button id="slider-prev" class="slider-btn" aria-label="Ảnh trước"><i class="fas fa-chevron-left"></i></button>
+                    <button id="slider-next" class="slider-btn" aria-label="Ảnh tiếp theo"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <p class="text-center text-xs text-gray-500 mt-2">*Hình ảnh mô phỏng bìa sách & nội dung thực tế.</p>
+            </div>
+
+            <div class="w-full lg:w-3/5 text-center lg:text-left">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-rose-700 mb-3 leading-tight">MẸO NHỚ HUYỆT</h1>
+                <p class="text-lg text-gray-600 mb-5">Giải pháp ghi nhớ huyệt đạo <span class="font-semibold text-rose-600">dễ dàng</span> và ứng dụng <span class="font-semibold text-rose-600">hiệu quả</span> tại nhà!</p>
+
+                <div class="flex flex-col md:flex-row justify-center lg:justify-start gap-6 mb-6">
+                    <div class="bg-white/70 backdrop-blur-sm p-4 rounded-lg border border-gray-200 shadow-sm text-center md:text-left">
+                        <div class="text-lg font-semibold text-gray-700 mb-1">Sách Mẹo Nhớ Huyệt</div>
+                        <div class="flex items-baseline justify-center md:justify-start gap-2 mb-1">
+                            <span class="text-xl line-through text-gray-500">500.000đ</span>
+                            <span class="text-3xl font-bold text-green-600">229.000đ</span>
+                        </div>
+                        <span class="inline-block bg-yellow-200 text-yellow-800 px-3 py-1 rounded-full font-semibold text-sm">Tiết kiệm 54%</span>
+                    </div>
+                    <div class="bg-white/70 backdrop-blur-sm p-4 rounded-lg border border-rose-200 shadow-sm text-center md:text-left">
+                        <div class="text-lg font-semibold text-gray-700 mb-1">Combo 2 Sách <span class="text-xs">(+ Liệu pháp chữa bệnh)</span></div>
+                         <div class="flex items-baseline justify-center md:justify-start gap-2 mb-1">
+                            <span class="text-xl line-through text-gray-500">708.000đ</span>
+                            <span class="text-3xl font-bold text-rose-600">349.000đ</span>
+                        </div>
+                        <span class="inline-block bg-rose-100 text-rose-800 px-3 py-1 rounded-full font-semibold text-sm">Siêu tiết kiệm 359K</span>
+                    </div>
+                </div>
+
+                <div id="timer-section" class="mb-5">
+                    <div class="flex items-center justify-center lg:justify-start gap-2 mb-2">
+                        <i class="fas fa-clock text-xl text-rose-500 animate-pulse"></i>
+                        <span class="font-bold text-gray-700 text-sm uppercase tracking-wide">Ưu đãi kết thúc sau:</span>
+                    </div>
+                    <div id="timer" class="flex justify-center lg:justify-start space-x-1">
+                        </div>
+                    <p class="text-xs text-green-600 mt-2 italic text-center lg:text-left">*Số lượng khuyến mãi combo có hạn*</p>
+                </div>
+
+                <button onclick="scrollToOrder()" class="inline-block px-8 py-3 bg-rose-600 text-white font-bold text-lg rounded-full shadow-md hover:bg-rose-700 transition duration-200 transform hover:scale-105">
+                    <i class="fas fa-shopping-cart mr-2"></i> Đặt Mua Ngay
+                 </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="marquee-section max-w-6xl mx-auto px-4 md:px-6 my-6">
+        <div class="marquee">
+            <span><i class="fas fa-gift text-rose-600"></i> Mua sách tặng video bài giảng & tài liệu hỗ trợ!</span>
+            <span><i class="fas fa-shipping-fast text-green-600"></i> Freeship toàn quốc!</span>
+            <span><i class="fas fa-headset text-blue-600"></i> Tư vấn tận tình - Hỗ trợ 1-1!</span>
+            <span><i class="fas fa-check-circle text-emerald-600"></i> Kiểm tra hàng trước khi thanh toán!</span>
+            <span><i class="fas fa-gift text-rose-600"></i> Mua sách tặng video bài giảng & tài liệu hỗ trợ!</span>
+            <span><i class="fas fa-shipping-fast text-green-600"></i> Freeship toàn quốc!</span>
+            <span><i class="fas fa-headset text-blue-600"></i> Tư vấn tận tình - Hỗ trợ 1-1!</span>
+            <span><i class="fas fa-check-circle text-emerald-600"></i> Kiểm tra hàng trước khi thanh toán!</span>
+        </div>
+    </div>
+
+    <section class="max-w-4xl mx-auto px-4 md:px-6 mt-10 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 text-center">
+            <div class="flex flex-col items-center p-4 bg-white rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200">
+                <i class="fas fa-undo-alt text-3xl text-amber-500 mb-2"></i>
+                <span class="font-semibold text-gray-700">Đổi/trả dễ dàng</span>
+                <span class="text-sm text-gray-500">Trong vòng 7 ngày</span>
+            </div>
+            <div class="flex flex-col items-center p-4 bg-white rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200">
+                <i class="fas fa-shipping-fast text-3xl text-blue-500 mb-2"></i>
+                <span class="font-semibold text-gray-700">Miễn phí giao hàng</span>
+                 <span class="text-sm text-gray-500">Toàn quốc</span>
+            </div>
+            <div class="flex flex-col items-center p-4 bg-white rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200">
+                <i class="fas fa-shield-alt text-3xl text-green-600 mb-2"></i>
+                <span class="font-semibold text-gray-700">Bảo hành in lỗi</span>
+                 <span class="text-sm text-gray-500">Đổi mới 1-1</span>
+            </div>
+        </div>
+    </section>
+
+    <button onclick="scrollToOrder()" class="floating-btn shadow-xl">
+        <i class="fas fa-cart-plus text-2xl"></i>
+        <span>Đặt hàng ngay</span>
+    </button>
+
+    <section class="max-w-5xl mx-auto px-4 md:px-6 py-10" id="noidung">
+        <h2 class="text-3xl md:text-4xl text-center text-rose-800 font-bold mb-8">Khám Phá Nội Dung Sách <span class="text-blue-700">MẸO NHỚ HUYỆT</span></h2>
+        <div class="bg-gradient-to-b from-white to-rose-50 rounded-lg shadow-lg p-6 md:p-8 border border-gray-200">
+            <div class="mb-8">
+                <h3 class="text-2xl text-rose-700 font-semibold mb-4 pb-2 border-b border-rose-200">PHẦN 1: MẸO NHỚ HUYỆT – Quy Tắc Xác Định Chung</h3>
+                <div class="space-y-4 text-gray-700">
+                    <details class="group">
+                        <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
+                            <i class="fas fa-chevron-right group-open:rotate-90 transition-transform duration-200 mr-2 text-sm text-rose-400 w-4 text-center"></i> 1. Vùng vai gáy lưng
+                        </summary>
+                        <p class="text-sm mt-2 pl-6 text-gray-600 leading-relaxed">Phong Phủ, Phong Trì, Đại Chùy, Thân Trụ, Chí Dương, Kiên Ngung, Kiên Tỉnh, Kiên Trinh, Nhu Du, Cánh Cân, Thiên Tông, Cao Hoang, Phế Du, Tâm Du, Cách Du, Can Du, Đởm Du, Tỳ Du, Vị Du, Thận Du, Chí Thất, Mệnh Môn, Yêu Nhãn, Bát Liêu, Trật Biên, Hoàn Khiêu.</p>
+                    </details>
+                    <details class="group">
+                        <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
+                             <i class="fas fa-chevron-right group-open:rotate-90 transition-transform duration-200 mr-2 text-sm text-rose-400 w-4 text-center"></i> 2. Vùng tay
+                        </summary>
+                         <p class="text-sm mt-2 pl-6 text-gray-600 leading-relaxed">Thiếu Thương, Lao Cung, Ngư Tế, Thần Môn, Đại Lăng, Nội Quan, Liệt Khuyết, Xích Trạch, Hợp Cốc, Lạc Chẩm, Trung Chử, Ngoại Quan, Thủ Tam Lý, Khúc Trì, Tỳ Nhu, Tiểu Hải.</p>
+                    </details>
+                     <details class="group">
+                        <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
+                             <i class="fas fa-chevron-right group-open:rotate-90 transition-transform duration-200 mr-2 text-sm text-rose-400 w-4 text-center"></i> 3. Vùng ngực
+                        </summary>
+                         <p class="text-sm mt-2 pl-6 text-gray-600 leading-relaxed">Vân Môn, Trung Phủ, Đản Trung, Thiên Đột, Ốc Ế, Thiên Trì, Nhũ Căn, Kỳ Môn.</p>
+                    </details>
+                     <details class="group">
+                        <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
+                             <i class="fas fa-chevron-right group-open:rotate-90 transition-transform duration-200 mr-2 text-sm text-rose-400 w-4 text-center"></i> 4. Vùng bụng
+                        </summary>
+                         <p class="text-sm mt-2 pl-6 text-gray-600 leading-relaxed">Cự Khuyết, Chương Môn, Trung Quản, Thần Khuyết, Khí Hải.</p>
+                    </details>
+                    <details class="group">
+                        <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
+                             <i class="fas fa-chevron-right group-open:rotate-90 transition-transform duration-200 mr-2 text-sm text-rose-400 w-4 text-center"></i> 5. Vùng chân (mặt trước & sau)
+                        </summary>
+                         <p class="text-sm mt-2 pl-6 text-gray-600 leading-relaxed">Quan Nguyên, Thiên Khu, Lương Môn, Trung Cực, Âm Lăng Tuyền, Huyết Hải, Lương Khâu, Thừa Phù, Phong Thị, Ủy Trung, Túc Tam Lý, Thừa Sơn, Tam Âm Giao, Thái Xung, Dũng Tuyền, Côn Lôn, Dương Lăng Tuyền...</p>
+                         </details>
+                    <details class="group">
+                        <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
+                             <i class="fas fa-chevron-right group-open:rotate-90 transition-transform duration-200 mr-2 text-sm text-rose-400 w-4 text-center"></i> 6. Vùng đầu - mặt
+                        </summary>
+                        <p class="text-sm mt-2 pl-6 text-gray-600 leading-relaxed">Nhân Trung, Thừa Tương, Địa Thương, Giáp Xa, Hạ Quan, Thính Cung, Nhĩ Môn, Ế Phong, Ấn Đường, Toản Trúc, Tình Minh, Thái Dương, Nghinh Hương, Đầu Duy, Suất Cốc, Bách Hội, Tứ Thần Thông, Phong Phủ, Phong Trì.</p>
+                         </details>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-2xl text-rose-700 font-semibold mb-4 pb-2 border-b border-rose-200">PHẦN 2: Ứng Dụng Ấn Huyệt Chăm Sóc Sức Khỏe Tại Nhà</h3>
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="font-semibold text-lg text-gray-800 mb-1">Chương 1: Phạm vi, Phương pháp và Quy tắc ấn huyệt</h4>
+                        <p class="block text-gray-600 text-sm leading-relaxed">Hướng dẫn chi tiết về cách xác định huyệt chính xác, các kỹ thuật day ấn phù hợp, lực đạo, thời gian và những lưu ý quan trọng để đảm bảo an toàn, hiệu quả khi thực hành.</p>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="font-semibold text-lg text-gray-800 mb-2">Chương 2: Thực hành ấn huyệt cho các triệu chứng thường gặp</h4>
+                        <ul class="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-2 text-gray-700 text-sm">
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Nhức mỏi mắt</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Ù tai, nghe kém</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Viêm mũi, viêm xoang</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Ho, đau họng</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Tăng cường trí nhớ</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Đau đầu, mất ngủ</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Rối loạn tiền đình</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Liệt mặt (dây VII)</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Đau vai gáy</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Đau tê cánh tay</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Đau lưng, đau thần kinh tọa</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Hội chứng ống cổ tay</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Chuột rút</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Tăng cường sinh lý</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Tắc tia sữa</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Chướng bụng, đầy hơi</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Táo bón, tiêu chảy</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Đau bụng kinh</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Say tàu xe, nấc</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Cảm cúm, hạ sốt</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Phục hồi sau tai biến</li>
+                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-2 mt-1 text-xs flex-shrink-0"></i>Ổn định huyết áp</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> <section class="bg-gray-100 py-12">
+        <div class="max-w-5xl mx-auto px-4 md:px-6 text-center">
+            <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Minh Họa Trực Quan, Dễ Hiểu</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6" id="illustrations">
+                <img src="https://placehold.co/350x500/fbcfe8/4a044e?text=Minh+Họa+Huyệt+1" alt="Nội dung minh họa huyệt đạo 1" class="rounded-lg shadow-md border border-gray-200 w-full h-auto object-cover aspect-[2/3] hover:scale-105 transition-transform duration-300 cursor-pointer" onerror="this.onerror=null; this.src='https://placehold.co/350x500/e0e7ff/1e1b4b?text=Image+Error'">
+                <img src="https://placehold.co/350x500/fecaca/7f1d1d?text=Minh+Họa+Huyệt+2" alt="Nội dung minh họa huyệt đạo 2" class="rounded-lg shadow-md border border-gray-200 w-full h-auto object-cover aspect-[2/3] hover:scale-105 transition-transform duration-300 cursor-pointer" onerror="this.onerror=null; this.src='https://placehold.co/350x500/e0e7ff/1e1b4b?text=Image+Error'">
+                <img src="https://placehold.co/350x500/ccfbf1/064e3b?text=Minh+Họa+Huyệt+3" alt="Nội dung minh họa huyệt đạo 3" class="rounded-lg shadow-md border border-gray-200 w-full h-auto object-cover aspect-[2/3] hover:scale-105 transition-transform duration-300 cursor-pointer" onerror="this.onerror=null; this.src='https://placehold.co/350x500/e0e7ff/1e1b4b?text=Image+Error'">
+                <img src="https://placehold.co/350x500/dbeafe/1e3a8a?text=Minh+Họa+Huyệt+4" alt="Nội dung minh họa huyệt đạo 4" class="rounded-lg shadow-md border border-gray-200 w-full h-auto object-cover aspect-[2/3] hover:scale-105 transition-transform duration-300 cursor-pointer" onerror="this.onerror=null; this.src='https://placehold.co/350x500/e0e7ff/1e1b4b?text=Image+Error'">
+            </div>
+            <p class="text-sm text-gray-600 mt-4 italic">Hình ảnh sắc nét, chú thích rõ ràng giúp bạn nắm vững vị trí và cách tác động.</p>
+        </div>
+    </section>
+    <section class="max-w-5xl mx-auto px-4 md:px-6 py-12">
+        <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">Khách Hàng Nói Gì Về Sách?</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white rounded-lg shadow-lg border border-gray-100 p-5 flex flex-col">
+                <div class="flex items-start gap-4 mb-3">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ảnh đại diện Nguyễn Văn Mẫn" class="rounded-full w-14 h-14 object-cover border-2 border-amber-200 flex-shrink-0" onerror="this.onerror=null; this.src='https://placehold.co/60x60/cccccc/ffffff?text=User'">
+                    <div>
+                        <span class="font-semibold text-gray-800 block">Nguyễn Văn Mẫn</span>
+                        <div class="text-yellow-500 text-sm">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm italic mb-4 flex-grow">"Sách trình bày khoa học, dễ hiểu. Phần mẹo ghi nhớ cực kỳ tâm đắc, giúp tôi tự tin ứng dụng bấm huyệt chăm sóc sức khỏe cho cả nhà. Rất đáng tiền!"</p>
+                <img src="https://placehold.co/200x150/fef3c7/854d0e?text=Sách+Thực+Tế+1" class="mt-auto rounded shadow border w-full h-32 object-cover self-center" alt="Ảnh đọc sách thực tế 1" onerror="this.onerror=null; this.src='https://placehold.co/200x150/eeeeee/aaaaaa?text=Image'">
+            </div>
+            <div class="bg-white rounded-lg shadow-lg border border-gray-100 p-5 flex flex-col">
+                 <div class="flex items-start gap-4 mb-3">
+                    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Ảnh đại diện Trần Huyền Trang" class="rounded-full w-14 h-14 object-cover border-2 border-pink-200 flex-shrink-0" onerror="this.onerror=null; this.src='https://placehold.co/60x60/cccccc/ffffff?text=User'">
+                    <div>
+                        <span class="font-semibold text-gray-800 block">Trần Huyền Trang</span>
+                        <div class="text-yellow-500 text-sm">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm italic mb-4 flex-grow">"Là mẹ bỉm, mình hay đau vai gáy. Đọc sách này biết cách tự bấm huyệt giảm đau hiệu quả. Shop còn tặng video hướng dẫn rất chi tiết, dễ làm theo."</p>
+                <img src="https://placehold.co/200x150/fce7f3/831843?text=Sách+Thực+Tế+2" class="mt-auto rounded shadow border w-full h-32 object-cover self-center" alt="Ảnh đọc sách thực tế 2" onerror="this.onerror=null; this.src='https://placehold.co/200x150/eeeeee/aaaaaa?text=Image'">
+            </div>
+            <div class="bg-white rounded-lg shadow-lg border border-gray-100 p-5 flex flex-col">
+                <div class="flex items-start gap-4 mb-3">
+                    <img src="https://randomuser.me/api/portraits/men/83.jpg" alt="Ảnh đại diện Bùi Tuấn Hưng" class="rounded-full w-14 h-14 object-cover border-2 border-blue-200 flex-shrink-0" onerror="this.onerror=null; this.src='https://placehold.co/60x60/cccccc/ffffff?text=User'">
+                    <div>
+                        <span class="font-semibold text-gray-800 block">Bùi Tuấn Hưng</span>
+                        <div class="text-yellow-500 text-sm">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm italic mb-4 flex-grow">"Mua combo 2 cuốn lợi hơn hẳn. Hình ảnh minh họa rõ ràng, nội dung chất lượng. Giao hàng nhanh, đóng gói cẩn thận. Sẽ ủng hộ shop tiếp!"</p>
+                <img src="https://placehold.co/200x150/dbeafe/1e40af?text=Sách+Thực+Tế+3" class="mt-auto rounded shadow border w-full h-32 object-cover self-center" alt="Ảnh đọc sách thực tế 3" onerror="this.onerror=null; this.src='https://placehold.co/200x150/eeeeee/aaaaaa?text=Image'">
+            </div>
+        </div>
+    </section>
+
+    <div id="effect-orders">
+        </div>
+
+    <section class="bg-gradient-to-b from-rose-50 to-white py-12" id="order-section">
+        <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-gray-200">
+            <h2 class="text-3xl font-bold text-rose-700 mb-5 text-center">Đặt Mua Sách Ngay!</h2>
+            <p class="text-center text-gray-600 mb-6">Điền thông tin để nhận ưu đãi và Freeship toàn quốc.</p>
+            <form id="order-form" class="space-y-5" novalidate> <input type="hidden" name="date" id="form-date">
+
+                <div>
+                    <label for="don_hang" class="font-semibold block mb-1.5 text-gray-700">Chọn sách muốn mua <span class="text-rose-500">*</span></label>
+                    <select name="don_hang" id="don_hang" required class="w-full border px-3 py-2.5 rounded-lg outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400 bg-white">
+                        <option value="Mẹo Nhớ Huyệt - 229K">Sách Mẹo Nhớ Huyệt (Giá KM: 229.000đ)</option>
+                        <option value="Liệu pháp chữa bệnh toàn Thân khu phản xạ - 179K">Sách Liệu pháp chữa bệnh (Giá KM: 179.000đ)</option>
+                        <option value="Combo cả 2 sách - 349K">Combo 2 Sách (Ưu đãi chỉ: 349.000đ)</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label for="name" class="font-semibold block mb-1.5 text-gray-700">Họ và tên <span class="text-rose-500">*</span></label>
+                        <input name="name" id="name" required type="text" class="w-full border px-3 py-2.5 rounded-lg outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400" autocomplete="name" placeholder="Ví dụ: Nguyễn Văn An">
+                    </div>
+                    <div>
+                        <label for="phone" class="font-semibold block mb-1.5 text-gray-700">Số điện thoại <span class="text-rose-500">*</span></label>
+                        <input name="phone" id="phone" required pattern="^0[0-9]{9}$" title="Số điện thoại gồm 10 chữ số, bắt đầu bằng 0" maxlength="10" type="tel" class="w-full border px-3 py-2.5 rounded-lg outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400" autocomplete="tel" placeholder="VD: 0912345678">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-semibold block mb-1.5 text-gray-700">Địa chỉ nhận hàng <span class="text-rose-500">*</span></label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+                        <select id="city" required class="w-full border px-3 py-2.5 rounded-lg outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400 bg-white" autocomplete="address-level1">
+                            <option value="">Chọn Tỉnh/Thành phố</option>
+                            </select>
+                        <select id="district" required disabled class="w-full border px-3 py-2.5 rounded-lg outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400 bg-white disabled:bg-gray-100 disabled:cursor-not-allowed" autocomplete="address-level2">
+                            <option value="">Chọn Quận/Huyện</option>
+                             </select>
+                        <select id="ward" required disabled class="w-full border px-3 py-2.5 rounded-lg outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400 bg-white disabled:bg-gray-100 disabled:cursor-not-allowed" autocomplete="address-level3">
+                            <option value="">Chọn Phường/Xã</option>
+                             </select>
+                    </div>
+                     <input type="text" id="street_address" required class="w-full border px-3 py-2.5 rounded-lg outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400 mb-3" placeholder="Số nhà, tên đường..." autocomplete="street-address">
+                     <div id="final_address" class="mt-2 text-sm p-2 border rounded bg-gray-100 text-gray-600">Địa chỉ đầy đủ sẽ hiển thị ở đây</div>
+                </div>
+
+                 <div>
+                    <label for="notes" class="font-semibold block mb-1.5 text-gray-700">Ghi chú thêm (tùy chọn)</label>
+                    <textarea name="notes" id="notes" rows="3" class="w-full border px-3 py-2.5 rounded-lg outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400" placeholder="Ví dụ: Giao hàng giờ hành chính..."></textarea>
+                </div>
+
+                <button type="submit" class="w-full px-6 py-3 bg-rose-600 text-white font-bold text-lg rounded-full shadow-md hover:bg-rose-700 transition duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fas fa-check-circle mr-2"></i> Hoàn Tất Đặt Hàng
+                </button>
+
+                <div id="form-success" class="hidden text-center"></div>
+                <div id="form-error" class="hidden text-center"></div>
+
+            </form>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-gray-300 py-8 px-4 md:px-6 text-sm">
+        <div class="max-w-6xl mx-auto text-center">
+            <p>&copy; 2025 Sách Mẹo Nhớ Huyệt. All rights reserved.</p>
+            <p class="mt-2">Thông tin liên hệ: 09xx xxx xxx | Email: info@meonhohuyet.com</p>
+            </div>
+    </footer>
+
+    <script>
+        // --- Slider ---
+        const sliderImages = document.querySelectorAll('#book-slider img');
+        const prevBtn = document.getElementById('slider-prev');
+        const nextBtn = document.getElementById('slider-next');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            sliderImages.forEach((img, i) => {
+                img.style.display = i === index ? 'block' : 'none';
+                // Optional: Add opacity transition class
+                img.style.opacity = i === index ? '1' : '0';
+            });
+            currentSlide = index;
+        }
+
+        if (prevBtn && nextBtn && sliderImages.length > 1) {
+            prevBtn.addEventListener('click', () => {
+                let newIndex = currentSlide - 1;
+                if (newIndex < 0) {
+                    newIndex = sliderImages.length - 1;
+                }
+                showSlide(newIndex);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                let newIndex = currentSlide + 1;
+                if (newIndex >= sliderImages.length) {
+                    newIndex = 0;
+                }
+                showSlide(newIndex);
+            });
+
+            // Initialize slider
+            showSlide(0);
+
+            // Auto-slide (optional)
+            // setInterval(() => {
+            //     nextBtn.click();
+            // }, 5000); // Change slide every 5 seconds
+        } else if (sliderImages.length === 1) {
+            // Hide buttons if only one image
+            if (prevBtn) prevBtn.style.display = 'none';
+            if (nextBtn) nextBtn.style.display = 'none';
+        }
+
+        // --- Countdown Timer ---
+        const timerElement = document.getElementById('timer');
+
+        function createTimerItem(digit, label) {
+            const item = document.createElement('div');
+            item.className = 'timer-item';
+            item.innerHTML = `<span class="timer-digit">${digit}</span><span class="timer-label">${label}</span>`;
+            return item;
+        }
+
+        function createTimerSeparator() {
+            const sep = document.createElement('span');
+            sep.className = 'timer-separator';
+            sep.textContent = ':';
+            return sep;
+        }
+
+        function updateTimer() {
+            // Set target date (e.g., 2 days from now)
+            const targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + 2); // Ends in 2 days
+            targetDate.setHours(23, 59, 59, 999); // End of the day
+
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                timerElement.innerHTML = '<span class="text-red-600 font-semibold">Ưu đãi đã kết thúc!</span>';
+                clearInterval(timerInterval);
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Format digits with leading zeros
+            const format = (num) => String(num).padStart(2, '0');
+
+            timerElement.innerHTML = ''; // Clear previous timer
+
+            if (days > 0) {
+                timerElement.appendChild(createTimerItem(format(days), 'Ngày'));
+                timerElement.appendChild(createTimerSeparator());
+            }
+            timerElement.appendChild(createTimerItem(format(hours), 'Giờ'));
+            timerElement.appendChild(createTimerSeparator());
+            timerElement.appendChild(createTimerItem(format(minutes), 'Phút'));
+            timerElement.appendChild(createTimerSeparator());
+            timerElement.appendChild(createTimerItem(format(seconds), 'Giây'));
+        }
+
+        if (timerElement) {
+            const timerInterval = setInterval(updateTimer, 1000);
+            updateTimer(); // Initial call
+        }
+
+        // --- Scroll to Order Form ---
+        function scrollToOrder() {
+            const orderSection = document.getElementById('order-section');
+            if (orderSection) {
+                orderSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // --- Address Dropdowns (Placeholder Data) ---
+        const citySelect = document.getElementById('city');
+        const districtSelect = document.getElementById('district');
+        const wardSelect = document.getElementById('ward');
+        const streetInput = document.getElementById('street_address');
+        const finalAddressDiv = document.getElementById('final_address');
+
+        // Placeholder data structure (replace with actual API call or data source)
+        const addressData = {
+            "Hà Nội": {
+                "Ba Đình": ["Phúc Xá", "Trúc Bạch", "Vĩnh Phúc"],
+                "Hoàn Kiếm": ["Hàng Buồm", "Hàng Bông", "Lý Thái Tổ"]
+            },
+            "TP. Hồ Chí Minh": {
+                "Quận 1": ["Bến Nghé", "Bến Thành", "Cầu Ông Lãnh"],
+                "Quận 3": ["Phường 1", "Phường 2", "Phường 3"]
+            },
+             "Quảng Ngãi": { // Added Quảng Ngãi
+                "TP. Quảng Ngãi": ["Chánh Lộ", "Lê Hồng Phong", "Nghĩa Chánh", "Nghĩa Lộ", "Quảng Phú", "Trần Hưng Đạo", "Trần Phú"],
+                "Huyện Bình Sơn": ["Thị trấn Châu Ổ", "Bình An", "Bình Chánh"],
+                "Huyện Sơn Tịnh": ["Tịnh Ấn Tây", "Tịnh Ấn Đông", "Tịnh Thiện"]
+            }
+            // Add more provinces/cities
+        };
+
+        function populateSelect(selectElement, options) {
+            selectElement.innerHTML = `<option value="">${selectElement.options[0].text}</option>`; // Keep placeholder
+            options.forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option;
+                opt.textContent = option;
+                selectElement.appendChild(opt);
+            });
+            selectElement.disabled = false;
+        }
+
+        function updateFinalAddress() {
+             const city = citySelect.value;
+             const district = districtSelect.value;
+             const ward = wardSelect.value;
+             const street = streetInput.value.trim();
+             let fullAddress = "";
+
+             if (street) fullAddress += street + ", ";
+             if (ward) fullAddress += ward + ", ";
+             if (district) fullAddress += district + ", ";
+             if (city) fullAddress += city;
+
+             if (fullAddress) {
+                 finalAddressDiv.textContent = fullAddress;
+             } else {
+                 finalAddressDiv.textContent = "Địa chỉ đầy đủ sẽ hiển thị ở đây";
+             }
+        }
+
+        if (citySelect && districtSelect && wardSelect && streetInput && finalAddressDiv) {
+            // Populate cities
+            populateSelect(citySelect, Object.keys(addressData));
+
+            // Event Listeners
+            citySelect.addEventListener('change', () => {
+                const selectedCity = citySelect.value;
+                districtSelect.disabled = true;
+                wardSelect.disabled = true;
+                districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
+                wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
+                if (selectedCity && addressData[selectedCity]) {
+                    populateSelect(districtSelect, Object.keys(addressData[selectedCity]));
+                }
+                 updateFinalAddress();
+            });
+
+            districtSelect.addEventListener('change', () => {
+                const selectedCity = citySelect.value;
+                const selectedDistrict = districtSelect.value;
+                wardSelect.disabled = true;
+                wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
+                if (selectedCity && selectedDistrict && addressData[selectedCity][selectedDistrict]) {
+                    populateSelect(wardSelect, addressData[selectedCity][selectedDistrict]);
+                }
+                 updateFinalAddress();
+            });
+
+            wardSelect.addEventListener('change', updateFinalAddress);
+            streetInput.addEventListener('input', updateFinalAddress);
+        }
+
+
+        // --- Form Submission (Simulation) ---
+        const orderForm = document.getElementById('order-form');
+        const successMsg = document.getElementById('form-success');
+        const errorMsg = document.getElementById('form-error');
+        const submitButton = orderForm ? orderForm.querySelector('button[type="submit"]') : null;
+
+        if (orderForm && successMsg && errorMsg && submitButton) {
+            orderForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent actual form submission
+                successMsg.classList.add('hidden');
+                errorMsg.classList.add('hidden');
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang xử lý...';
+
+                // Basic Validation
+                let isValid = true;
+                const requiredFields = orderForm.querySelectorAll('[required]');
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('border-red-500'); // Highlight invalid fields
+                    } else {
+                         field.classList.remove('border-red-500');
+                    }
+                });
+
+                 // Phone validation
+                const phoneInput = document.getElementById('phone');
+                if (phoneInput && !phoneInput.checkValidity()) {
+                    isValid = false;
+                    phoneInput.classList.add('border-red-500');
+                } else if (phoneInput) {
+                    phoneInput.classList.remove('border-red-500');
+                }
+
+                if (!isValid) {
+                    errorMsg.textContent = 'Vui lòng điền đầy đủ thông tin bắt buộc và kiểm tra lại số điện thoại.';
+                    errorMsg.classList.remove('hidden');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Hoàn Tất Đặt Hàng';
+                    return;
+                }
+
+                // --- Simulate API Call ---
+                // Set current date
+                 document.getElementById('form-date').value = new Date().toISOString();
+
+                 // Get form data (Example for potential sending)
+                 const formData = new FormData(orderForm);
+                 const data = {};
+                 formData.forEach((value, key) => data[key] = value);
+                 data['final_address'] = finalAddressDiv.textContent; // Add final address
+                 console.log("Form Data (Simulated Send):", data);
+
+                setTimeout(() => {
+                    // Simulate success
+                    successMsg.textContent = 'Đặt hàng thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.';
+                    successMsg.classList.remove('hidden');
+                    orderForm.reset(); // Clear the form
+                    // Reset address dropdowns
+                    districtSelect.disabled = true;
+                    wardSelect.disabled = true;
+                    districtSelect.innerHTML = '<option value="">Chọn Quận/Huyện</option>';
+                    wardSelect.innerHTML = '<option value="">Chọn Phường/Xã</option>';
+                    finalAddressDiv.textContent = "Địa chỉ đầy đủ sẽ hiển thị ở đây";
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Hoàn Tất Đặt Hàng';
+
+                    // Optional: Track conversion event
+                    if (typeof fbq === 'function') {
+                        fbq('track', 'Purchase', {currency: "VND", value: getSelectedPrice()});
+                    }
+
+                }, 1500); // Simulate network delay
+
+                // --- To simulate an error ---
+                /*
+                setTimeout(() => {
+                    errorMsg.textContent = 'Đã có lỗi xảy ra. Vui lòng thử lại sau.';
+                    errorMsg.classList.remove('hidden');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Hoàn Tất Đặt Hàng';
+                }, 1500);
+                */
+            });
+        }
+
+        function getSelectedPrice() {
+            const select = document.getElementById('don_hang');
+            const selectedValue = select.value;
+            if (selectedValue.includes('349K')) return 349000;
+            if (selectedValue.includes('229K')) return 229000;
+            if (selectedValue.includes('179K')) return 179000;
+            return 0; // Default
+        }
+
+        // --- Fake Order Popups ---
+        const popupContainer = document.getElementById('effect-orders');
+        const names = ["Anh Minh", "Chị Lan", "Chú Hùng", "Cô Mai", "Bạn Tuấn", "Chị Hoa", "Bác Dũng", "Cô Nga"];
+        const cities = ["Hà Nội", "TP. HCM", "Đà Nẵng", "Hải Phòng", "Cần Thơ", "Quảng Ngãi", "Nha Trang", "Huế"]; // Added Quảng Ngãi
+        const products = ["Sách Mẹo Nhớ Huyệt", "Combo 2 Sách"];
+
+        function showFakeOrder() {
+            if (!popupContainer) return;
+
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomCity = cities[Math.floor(Math.random() * cities.length)];
+            const randomProduct = products[Math.floor(Math.random() * products.length)];
+            const randomTime = Math.floor(Math.random() * 59) + 1; // 1-59 minutes ago
+
+            const popup = document.createElement('div');
+            popup.className = 'fake-order-popup';
+            popup.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <div>
+                    <span><b>${randomName}</b> <span class="city">(${randomCity})</span></span>
+                    <span class="product">vừa đặt ${randomProduct}</span>
+                    <span class="time">${randomTime} phút trước</span>
+                </div>
+            `;
+
+            popupContainer.appendChild(popup);
+
+            // Trigger animation
+            setTimeout(() => {
+                popup.classList.add('show');
+            }, 100); // Small delay to allow rendering
+
+            // Hide and remove after a few seconds
+            setTimeout(() => {
+                popup.classList.remove('show');
+                popup.classList.add('hide');
+                setTimeout(() => {
+                    if (popup.parentNode === popupContainer) {
+                        popupContainer.removeChild(popup);
+                    }
+                }, 500); // Wait for hide animation
+            }, 5000); // Show for 5 seconds
+        }
+
+        // Show a popup randomly every 8-15 seconds
+        function schedulePopup() {
+             const delay = Math.random() * 7000 + 8000; // 8-15 seconds
+             setTimeout(() => {
+                 showFakeOrder();
+                 schedulePopup(); // Schedule next one
+             }, delay);
+        }
+
+        if (popupContainer) {
+             schedulePopup(); // Start the popup cycle
+        }
+
+    </script>
+
 </body>
 </html>
-
