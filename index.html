@@ -36,7 +36,16 @@
 
         /* Slider Styling */
         .slider { position:relative; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .slider img { display: block; max-height: 350px; object-fit:cover; width: 100%; transition: opacity 0.5s ease-in-out; } /* Use opacity for smoother transition */
+        /* Changed object-fit to contain to prevent cropping */
+        .slider img {
+            display: block;
+            max-height: 350px;
+            object-fit: contain; /* Changed from cover to contain */
+            width: 100%;
+            height: auto; /* Allow height to adjust based on contain */
+            transition: opacity 0.5s ease-in-out;
+            background-color: #ffffff; /* Optional: Add a background color if needed */
+        }
         .slider:hover img { /* transform: scale(1.03); Optional hover effect */ }
         .slider-btn {
             position: absolute;
@@ -111,6 +120,14 @@
             box-shadow: 0 0 0 3px rgba(251, 113, 133, 0.3);
         }
         #order-form select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E"); background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em; padding-right: 2.5rem; }
+        /* Style for disabled selects */
+        #order-form select:disabled {
+            background-color: #f3f4f6; /* Lighter gray background */
+            color: #9ca3af; /* Lighter text color */
+            cursor: not-allowed;
+            border-color: #e5e7eb; /* Lighter border */
+            background-image: none; /* Remove arrow */
+        }
         #order-form button[type='submit'] {
             background: linear-gradient(45deg, #f43f5e, #be123c); /* Red gradient */
             transition: background 0.3s ease, transform 0.1s ease;
@@ -127,7 +144,7 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(225, 29, 72, 0.4);
         }
-        #final_address { background-color: #f3f4f6; cursor: not-allowed; border-radius: 8px; padding: 10px 12px; font-size: 0.9em; color: #4b5563; } /* Visually indicate readonly */
+        #final_address { background-color: #f3f4f6; cursor: not-allowed; border-radius: 8px; padding: 10px 12px; font-size: 0.9em; color: #4b5563; min-height: 40px; /* Ensure it has some height */ display: flex; align-items: center; } /* Visually indicate readonly */
 
         /* Success/Error Message Styling */
         #form-success, #form-error { border-radius: 8px; padding: 12px 16px; margin-top: 16px; font-size: 0.95em; }
@@ -244,7 +261,6 @@
              }
         }
 
-
     </style>
 </head>
 <body class="text-gray-800">
@@ -252,8 +268,7 @@
     <header class="relative bg-gradient-to-br from-rose-50 via-pink-50 to-blue-100 pt-10 pb-6 px-4 md:px-6">
         <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
             <div class="w-full lg:w-2/5 flex-shrink-0">
-                <div class="slider" id="book-slider">
-                    <img id="slider-image" src="https://static.ladipage.net/60e3d69a577a1e00126a4dbe/2-20231204024352-w1coi.png" alt="Bìa sách Mẹo Nhớ Huyệt">
+                <div class="slider flex justify-center items-center" id="book-slider"> <img id="slider-image" src="https://static.ladipage.net/60e3d69a577a1e00126a4dbe/2-20231204024352-w1coi.png" alt="Bìa sách Mẹo Nhớ Huyệt">
                     <img src="https://i.postimg.cc/Hn9TDL5b/meonhohuyet2.jpg" alt="Hình ảnh bên trong sách 1" style="display: none;">
                     <img src="https://i.postimg.cc/9QMCKCfq/meonhohuyet4.jpg" alt="Hình ảnh bên trong sách 2" style="display: none;">
                     <img src="https://i.postimg.cc/m21SwFYc/meonhohuyet-m-c-l-c.jpg" alt="Mục lục sách 1" style="display: none;">
@@ -295,7 +310,14 @@
                         <span class="font-bold text-gray-700 text-sm uppercase tracking-wide">Ưu đãi kết thúc sau:</span>
                     </div>
                     <div id="timer" class="flex justify-center lg:justify-start space-x-1">
-                        </div>
+                        <div class="timer-item"><span class="timer-digit">--</span><span class="timer-label">Ngày</span></div>
+                        <span class="timer-separator">:</span>
+                        <div class="timer-item"><span class="timer-digit">--</span><span class="timer-label">Giờ</span></div>
+                        <span class="timer-separator">:</span>
+                        <div class="timer-item"><span class="timer-digit">--</span><span class="timer-label">Phút</span></div>
+                        <span class="timer-separator">:</span>
+                        <div class="timer-item"><span class="timer-digit">--</span><span class="timer-label">Giây</span></div>
+                    </div>
                     <p class="text-xs text-green-600 mt-2 italic text-center lg:text-left">*Số lượng khuyến mãi combo có hạn*</p>
                 </div>
 
@@ -366,7 +388,7 @@
                          <div class="details-content">
                             <p class="text-sm text-gray-600 leading-relaxed">Thiếu Thương, Lao Cung, Ngư Tế, Thần Môn, Đại Lăng, Nội Quan, Liệt Khuyết, Xích Trạch, Hợp Cốc, Lạc Chẩm, Trung Chử, Ngoại Quan, Thủ Tam Lý, Khúc Trì, Tỳ Nhu, Tiểu Hải.</p>
                              <img src="https://i.postimg.cc/HLPwXQSP/Screenshot-2025-04-27-025002.png" alt="Hình ảnh minh họa huyệt vùng tay" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/e0e7ff/1e1b4b?text=Lỗi+Ảnh'">
-                         </div>
+                        </div>
                     </details>
                     <details class="group">
                         <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
@@ -375,7 +397,7 @@
                          <div class="details-content">
                              <p class="text-sm text-gray-600 leading-relaxed">Vân Môn, Trung Phủ, Đản Trung, Thiên Đột, Ốc Ế, Thiên Trì, Nhũ Căn, Kỳ Môn.</p>
                              <img src="https://i.postimg.cc/kMSQRRWf/Screenshot-2025-04-27-025113.png" alt="Hình ảnh minh họa huyệt vùng ngực" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/e0e7ff/1e1b4b?text=Lỗi+Ảnh'">
-                         </div>
+                        </div>
                     </details>
                     <details class="group">
                         <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
@@ -384,7 +406,7 @@
                          <div class="details-content">
                             <p class="text-sm text-gray-600 leading-relaxed">Cự Khuyết, Chương Môn, Trung Quản, Thần Khuyết, Khí Hải.</p>
                              <img src="https://i.postimg.cc/vZZxh46R/Screenshot-2025-04-27-025232.png" alt="Hình ảnh minh họa huyệt vùng bụng" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/e0e7ff/1e1b4b?text=Lỗi+Ảnh'">
-                         </div>
+                        </div>
                     </details>
                     <details class="group">
                         <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
@@ -393,7 +415,7 @@
                          <div class="details-content">
                             <p class="text-sm text-gray-600 leading-relaxed">Quan Nguyên, Thiên Khu, Lương Môn, Trung Cực, Âm Lăng Tuyền, Huyết Hải, Lương Khâu, Thừa Phù, Phong Thị, Ủy Trung, Túc Tam Lý, Thừa Sơn, Tam Âm Giao, Thái Xung, Dũng Tuyền, Côn Lôn, Dương Lăng Tuyền...</p>
                              <img src="https://i.postimg.cc/qqrz3qd5/Screenshot-2025-04-27-025326.png" alt="Hình ảnh minh họa huyệt vùng chân" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/e0e7ff/1e1b4b?text=Lỗi+Ảnh'">
-                         </div>
+                        </div>
                     </details>
                     <details class="group">
                         <summary class="cursor-pointer font-semibold text-lg list-none group-hover:text-rose-600 transition-colors flex items-center">
@@ -402,7 +424,7 @@
                         <div class="details-content">
                             <p class="text-sm text-gray-600 leading-relaxed">Nhân Trung, Thừa Tương, Địa Thương, Giáp Xa, Hạ Quan, Thính Cung, Nhĩ Môn, Ế Phong, Ấn Đường, Toản Trúc, Tình Minh, Thái Dương, Nghinh Hương, Đầu Duy, Suất Cốc, Bách Hội, Tứ Thần Thông, Phong Phủ, Phong Trì.</p>
                              <img src="https://i.postimg.cc/pLSrBqH8/Screenshot-2025-04-27-025428.png" alt="Hình ảnh minh họa huyệt vùng đầu mặt" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x300/e0e7ff/1e1b4b?text=Lỗi+Ảnh'">
-                         </div>
+                        </div>
                     </details>
                 </div>
             </div>
@@ -444,7 +466,9 @@
                 </div>
             </div>
         </div>
-    </section> <section class="bg-gray-100 py-12">
+    </section>
+
+    <section class="bg-gray-100 py-12">
         <div class="max-w-5xl mx-auto px-4 md:px-6 text-center">
             <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Minh Họa Trực Quan, Dễ Hiểu</h3>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6" id="illustrations">
@@ -456,6 +480,7 @@
             <p class="text-sm text-gray-600 mt-4 italic">Hình ảnh sắc nét, chú thích rõ ràng giúp bạn nắm vững vị trí và cách tác động.</p>
         </div>
     </section>
+
     <section class="max-w-5xl mx-auto px-4 md:px-6 py-12">
         <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">Khách Hàng Nói Gì Về Sách?</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -508,7 +533,8 @@
         <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-gray-200">
             <h2 class="text-3xl font-bold text-rose-700 mb-5 text-center">Đặt Mua Sách Ngay!</h2>
             <p class="text-center text-gray-600 mb-6">Điền thông tin để nhận ưu đãi và Freeship toàn quốc.</p>
-            <form id="order-form" class="space-y-5" novalidate> <input type="hidden" name="date" id="form-date">
+            <form id="order-form" class="space-y-5" novalidate>
+                <input type="hidden" name="date" id="form-date">
 
                 <div>
                     <label for="don_hang" class="font-semibold block mb-1.5 text-gray-700">Chọn sách muốn mua <span class="text-rose-500">*</span></label>
@@ -545,12 +571,13 @@
                     </div>
                      <input type="text" id="street_address" required class="w-full border px-3 py-2.5 rounded-lg outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400 mb-3" placeholder="Số nhà, tên đường..." autocomplete="street-address">
                      <div id="final_address" class="mt-2 text-sm p-2 border rounded bg-gray-100 text-gray-600">Địa chỉ đầy đủ sẽ hiển thị ở đây</div>
+                     <input type="hidden" name="address" id="hidden_address">
                 </div>
 
                  <div>
                     <label for="notes" class="font-semibold block mb-1.5 text-gray-700">Ghi chú thêm (tùy chọn)</label>
-                    <textarea name="notes" id="notes" rows="3" class="w-full border px-3 py-2.5 rounded-lg outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400" placeholder="Ví dụ: Giao hàng giờ hành chính..."></textarea>
-                </div>
+                    <textarea name="Note" id="notes" rows="3" class="w-full border px-3 py-2.5 rounded-lg outline-none focus:ring-2 focus:ring-rose-300 focus:border-rose-400" placeholder="Ví dụ: Giao hàng giờ hành chính..."></textarea>
+                     </div>
 
                 <button type="submit" class="w-full px-6 py-3 bg-rose-600 text-white font-bold text-lg rounded-full shadow-md hover:bg-rose-700 transition duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
                     <i class="fas fa-check-circle mr-2"></i> Hoàn Tất Đặt Hàng
@@ -579,52 +606,36 @@
 
         function showSlide(index) {
             sliderImages.forEach((img, i) => {
-                // Treat all images within the slider the same way
                 img.style.display = i === index ? 'block' : 'none';
                 img.style.opacity = i === index ? '1' : '0';
             });
             currentSlide = index;
         }
 
-
         if (prevBtn && nextBtn && sliderImages.length > 1) {
             prevBtn.addEventListener('click', () => {
                 let newIndex = currentSlide - 1;
-                if (newIndex < 0) {
-                    newIndex = sliderImages.length - 1;
-                }
+                if (newIndex < 0) newIndex = sliderImages.length - 1;
                 showSlide(newIndex);
             });
-
             nextBtn.addEventListener('click', () => {
                 let newIndex = currentSlide + 1;
-                if (newIndex >= sliderImages.length) {
-                    newIndex = 0;
-                }
+                if (newIndex >= sliderImages.length) newIndex = 0;
                 showSlide(newIndex);
             });
-
-            // Initialize slider
-            showSlide(0);
-
-            // Auto-slide (optional)
-            // setInterval(() => {
-            //     nextBtn.click();
-            // }, 5000); // Change slide every 5 seconds
+            showSlide(0); // Initialize slider
         } else if (sliderImages.length === 1) {
-            // Hide buttons if only one image
             if (prevBtn) prevBtn.style.display = 'none';
             if (nextBtn) nextBtn.style.display = 'none';
-             // Ensure the single image is displayed
-             if (sliderImages[0]) {
-                sliderImages[0].style.display = 'block';
-                sliderImages[0].style.opacity = '1';
-             }
+            if (sliderImages[0]) {
+                 sliderImages[0].style.display = 'block';
+                 sliderImages[0].style.opacity = '1';
+            }
         }
 
         // --- Countdown Timer ---
         const timerElement = document.getElementById('timer');
-        let timerInterval; // Declare interval variable
+        let timerInterval;
 
         function createTimerItem(digit, label) {
             const item = document.createElement('div');
@@ -641,7 +652,6 @@
         }
 
         function updateTimer() {
-            // Set target date (e.g., 2 days from now)
             const targetDate = new Date();
             targetDate.setDate(targetDate.getDate() + 2); // Ends in 2 days
             targetDate.setHours(23, 59, 59, 999); // End of the day
@@ -652,7 +662,7 @@
             if (distance < 0) {
                 if(timerElement) {
                     timerElement.innerHTML = '<span class="text-red-600 font-semibold">Ưu đãi đã kết thúc!</span>';
-                     if (timerInterval) clearInterval(timerInterval); // Clear interval when done
+                    if (timerInterval) clearInterval(timerInterval);
                 }
                 return;
             }
@@ -661,13 +671,10 @@
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Format digits with leading zeros
             const format = (num) => String(num).padStart(2, '0');
 
             if(timerElement) {
                 timerElement.innerHTML = ''; // Clear previous timer
-
                 if (days > 0) {
                     timerElement.appendChild(createTimerItem(format(days), 'Ngày'));
                     timerElement.appendChild(createTimerSeparator());
@@ -680,11 +687,6 @@
             }
         }
 
-        if (timerElement) {
-            updateTimer(); // Initial call
-            timerInterval = setInterval(updateTimer, 1000); // Assign interval ID
-        }
-
         // --- Scroll to Order Form ---
         function scrollToOrder() {
             const orderSection = document.getElementById('order-section');
@@ -693,213 +695,324 @@
             }
         }
 
-        // --- Address Dropdowns (Placeholder Data) ---
+        // --- Address Dropdowns (Fetching Data) ---
         const citySelect = document.getElementById('city');
         const districtSelect = document.getElementById('district');
         const wardSelect = document.getElementById('ward');
         const streetInput = document.getElementById('street_address');
         const finalAddressDiv = document.getElementById('final_address');
+        const hiddenAddressInput = document.getElementById('hidden_address'); // Get the hidden input
+        const addressApiUrl = 'https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json'; // URL for address data
+        let citiesData = []; // To store the fetched data
 
-        // Placeholder data structure (replace with actual API call or data source)
-        const addressData = {
-            "Hà Nội": {
-                "Ba Đình": ["Phúc Xá", "Trúc Bạch", "Vĩnh Phúc"],
-                "Hoàn Kiếm": ["Hàng Buồm", "Hàng Bông", "Lý Thái Tổ"]
-            },
-            "TP. Hồ Chí Minh": {
-                "Quận 1": ["Bến Nghé", "Bến Thành", "Cầu Ông Lãnh"],
-                "Quận 3": ["Phường 1", "Phường 2", "Phường 3"]
-            },
-             "Quảng Ngãi": { // Added Quảng Ngãi
-                "TP. Quảng Ngãi": ["Chánh Lộ", "Lê Hồng Phong", "Nghĩa Chánh", "Nghĩa Lộ", "Quảng Phú", "Trần Hưng Đạo", "Trần Phú"],
-                "Huyện Bình Sơn": ["Thị trấn Châu Ổ", "Bình An", "Bình Chánh"],
-                "Huyện Sơn Tịnh": ["Tịnh Ấn Tây", "Tịnh Ấn Đông", "Tịnh Thiện"]
-            }
-            // Add more provinces/cities
-        };
+        // Function to populate a select dropdown
+        function populateSelect(selectElement, options, valueField = 'Id', textField = 'Name') {
+             if (!selectElement) return;
+             const placeholderText = selectElement.options[0].text; // Keep the placeholder
+             selectElement.innerHTML = `<option value="">${placeholderText}</option>`; // Reset options but keep placeholder
 
-        function populateSelect(selectElement, options) {
-             if (!selectElement) return; // Add null check
-            const placeholder = selectElement.options[0].text; // Store placeholder text
-            selectElement.innerHTML = `<option value="">${placeholder}</option>`; // Keep placeholder
-            options.forEach(option => {
-                const opt = document.createElement('option');
-                opt.value = option;
-                opt.textContent = option;
-                selectElement.appendChild(opt);
-            });
-            selectElement.disabled = false;
+             options.forEach(optionData => {
+                 const option = document.createElement('option');
+                 option.value = optionData[valueField]; // Use ID or Name as value if needed
+                 option.textContent = optionData[textField]; // Display Name
+                 option.dataset.data = JSON.stringify(optionData);
+                 selectElement.appendChild(option);
+             });
+             selectElement.disabled = false; // Enable the select
         }
 
+        // Function to clear and disable selects
+        function resetSelect(selectElement, placeholderText) {
+            if (!selectElement) return;
+            selectElement.innerHTML = `<option value="">${placeholderText}</option>`;
+            selectElement.disabled = true;
+        }
+
+        // Function to update the final address display AND the hidden input
         function updateFinalAddress() {
-             if (!citySelect || !districtSelect || !wardSelect || !streetInput || !finalAddressDiv) return; // Add null checks
-             const city = citySelect.value;
-             const district = districtSelect.value;
-             const ward = wardSelect.value;
+             if (!citySelect || !districtSelect || !wardSelect || !streetInput || !finalAddressDiv || !hiddenAddressInput) return;
+
+             const selectedCityOpt = citySelect.options[citySelect.selectedIndex];
+             const selectedDistrictOpt = districtSelect.options[districtSelect.selectedIndex];
+             const selectedWardOpt = wardSelect.options[wardSelect.selectedIndex];
+
+             const cityName = selectedCityOpt ? selectedCityOpt.textContent : '';
+             const districtName = selectedDistrictOpt ? selectedDistrictOpt.textContent : '';
+             const wardName = selectedWardOpt ? selectedWardOpt.textContent : '';
              const street = streetInput.value.trim();
+
              let fullAddress = "";
 
              if (street) fullAddress += street;
-             if (ward) fullAddress += (fullAddress ? ", " : "") + ward;
-             if (district) fullAddress += (fullAddress ? ", " : "") + district;
-             if (city) fullAddress += (fullAddress ? ", " : "") + city;
+             // Only add commune/ward/district/city if they are selected (not the placeholder)
+             if (wardName && selectedWardOpt && selectedWardOpt.value) fullAddress += (fullAddress ? ", " : "") + wardName;
+             if (districtName && selectedDistrictOpt && selectedDistrictOpt.value) fullAddress += (fullAddress ? ", " : "") + districtName;
+             if (cityName && selectedCityOpt && selectedCityOpt.value) fullAddress += (fullAddress ? ", " : "") + cityName;
 
-
-             if (fullAddress) {
+             if (fullAddress && fullAddress !== 'Chọn Tỉnh/Thành phố') { // Check if it's just the placeholder
                  finalAddressDiv.textContent = fullAddress;
+                 hiddenAddressInput.value = fullAddress; // Update hidden input value
              } else {
                  finalAddressDiv.textContent = "Địa chỉ đầy đủ sẽ hiển thị ở đây";
+                 hiddenAddressInput.value = ""; // Clear hidden input value
              }
         }
 
-        if (citySelect && districtSelect && wardSelect && streetInput && finalAddressDiv) {
-            // Populate cities
-            populateSelect(citySelect, Object.keys(addressData));
+        // Function to fetch and load address data
+        async function loadAddressData() {
+            // Disable selects while loading
+            if (citySelect) citySelect.disabled = true;
+            resetSelect(districtSelect, 'Chọn Quận/Huyện');
+            resetSelect(wardSelect, 'Chọn Phường/Xã');
+            updateFinalAddress(); // Clear final address
 
-            // Event Listeners
-            citySelect.addEventListener('change', () => {
-                const selectedCity = citySelect.value;
-                districtSelect.disabled = true;
-                wardSelect.disabled = true;
-                populateSelect(districtSelect, []); // Clear districts
-                populateSelect(wardSelect, []); // Clear wards
-                if (selectedCity && addressData[selectedCity]) {
-                    populateSelect(districtSelect, Object.keys(addressData[selectedCity]));
+            try {
+                const response = await fetch(addressApiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                 updateFinalAddress();
-            });
+                citiesData = await response.json(); // Store fetched data
 
-            districtSelect.addEventListener('change', () => {
-                const selectedCity = citySelect.value;
-                const selectedDistrict = districtSelect.value;
-                wardSelect.disabled = true;
-                 populateSelect(wardSelect, []); // Clear wards
-                if (selectedCity && selectedDistrict && addressData[selectedCity]?.[selectedDistrict]) { // Optional chaining
-                    populateSelect(wardSelect, addressData[selectedCity][selectedDistrict]);
+                // Sort cities alphabetically by Name
+                citiesData.sort((a, b) => a.Name.localeCompare(b.Name));
+
+                if (citySelect) {
+                    populateSelect(citySelect, citiesData, 'Id', 'Name'); // Populate cities
                 }
-                 updateFinalAddress();
-            });
 
-            wardSelect.addEventListener('change', updateFinalAddress);
-            streetInput.addEventListener('input', updateFinalAddress);
+            } catch (error) {
+                console.error("Could not fetch address data:", error);
+                if (finalAddressDiv) {
+                    finalAddressDiv.textContent = "Lỗi tải dữ liệu địa chỉ!";
+                    finalAddressDiv.classList.add('text-red-600');
+                }
+                // Optionally display an error message to the user in the form
+                const errorMsgElement = document.getElementById('form-error');
+                if (errorMsgElement) {
+                    errorMsgElement.textContent = 'Không thể tải danh sách Tỉnh/Thành. Vui lòng thử lại sau.';
+                    errorMsgElement.classList.remove('hidden');
+                }
+            } finally {
+                 // Re-enable city select even if fetch fails
+                 if (citySelect) citySelect.disabled = false;
+            }
         }
 
+        // Add event listeners after DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial Timer Update and Interval Start
+            if (timerElement) {
+                updateTimer();
+                timerInterval = setInterval(updateTimer, 1000);
+            }
 
-        // --- Form Submission (Simulation) ---
-        const orderForm = document.getElementById('order-form');
-        const successMsg = document.getElementById('form-success');
-        const errorMsg = document.getElementById('form-error');
-        const submitButton = orderForm ? orderForm.querySelector('button[type="submit"]') : null;
+            // Start Fake Order Popups
+            if (popupContainer) {
+                schedulePopup();
+            }
 
-        if (orderForm && successMsg && errorMsg && submitButton) {
-            orderForm.addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent actual form submission
-                successMsg.classList.add('hidden');
-                errorMsg.classList.add('hidden');
-                submitButton.disabled = true;
-                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang xử lý...';
+            // Load Address Data
+            if (citySelect && districtSelect && wardSelect && streetInput && finalAddressDiv) {
+                loadAddressData(); // Fetch data when DOM is ready
 
-                // Basic Validation
-                let isValid = true;
-                const requiredFields = orderForm.querySelectorAll('[required]');
-                requiredFields.forEach(field => {
-                     // Check if field is visible and enabled before validating
-                    if (field.offsetParent !== null && !field.disabled) {
-                        if (!field.value.trim()) {
-                            isValid = false;
-                            field.classList.add('border-red-500'); // Highlight invalid fields
-                             field.classList.remove('border-gray-300');
-                        } else {
-                            field.classList.remove('border-red-500');
-                             field.classList.add('border-gray-300');
+                // Event Listener for City selection
+                citySelect.addEventListener('change', () => {
+                    const selectedCityId = citySelect.value;
+                    resetSelect(districtSelect, 'Chọn Quận/Huyện'); // Reset district
+                    resetSelect(wardSelect, 'Chọn Phường/Xã'); // Reset ward
+
+                    if (selectedCityId) {
+                        // Find the selected city object from the fetched data
+                        const selectedCity = citiesData.find(city => city.Id === selectedCityId);
+                        if (selectedCity && selectedCity.Districts) {
+                            // Sort districts alphabetically
+                            selectedCity.Districts.sort((a, b) => a.Name.localeCompare(b.Name));
+                            populateSelect(districtSelect, selectedCity.Districts, 'Id', 'Name');
                         }
                     }
+                    updateFinalAddress(); // Update display
                 });
 
-                 // Phone validation
-                const phoneInput = document.getElementById('phone');
-                if (phoneInput && !phoneInput.checkValidity()) {
-                    isValid = false;
-                    phoneInput.classList.add('border-red-500');
-                     phoneInput.classList.remove('border-gray-300');
-                } else if (phoneInput) {
-                    phoneInput.classList.remove('border-red-500');
-                     phoneInput.classList.add('border-gray-300');
-                }
+                // Event Listener for District selection
+                districtSelect.addEventListener('change', () => {
+                    const selectedCityId = citySelect.value;
+                    const selectedDistrictId = districtSelect.value;
+                    resetSelect(wardSelect, 'Chọn Phường/Xã'); // Reset ward
 
-                if (!isValid) {
-                    errorMsg.textContent = 'Vui lòng điền đầy đủ thông tin bắt buộc và kiểm tra lại số điện thoại.';
-                    errorMsg.classList.remove('hidden');
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Hoàn Tất Đặt Hàng';
-                    // Scroll to the first invalid field (optional)
-                    const firstInvalid = orderForm.querySelector('.border-red-500');
-                    if (firstInvalid) {
-                        firstInvalid.focus(); // Focus on the first invalid field
-                        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    if (selectedCityId && selectedDistrictId) {
+                        const selectedCity = citiesData.find(city => city.Id === selectedCityId);
+                        const selectedDistrict = selectedCity?.Districts.find(district => district.Id === selectedDistrictId); // Use optional chaining
+
+                        if (selectedDistrict && selectedDistrict.Wards) {
+                             // Sort wards alphabetically
+                            selectedDistrict.Wards.sort((a, b) => a.Name.localeCompare(b.Name));
+                            populateSelect(wardSelect, selectedDistrict.Wards, 'Id', 'Name');
+                        }
                     }
-                    return;
-                }
+                    updateFinalAddress(); // Update display
+                });
 
-                // --- Simulate API Call ---
-                // Set current date
-                 const dateInput = document.getElementById('form-date');
-                 if (dateInput) dateInput.value = new Date().toISOString();
+                // Event Listeners for Ward and Street input
+                wardSelect.addEventListener('change', updateFinalAddress);
+                streetInput.addEventListener('input', updateFinalAddress);
+            }
 
-                 // Get form data (Example for potential sending)
-                 const formData = new FormData(orderForm);
-                 const data = {};
-                 formData.forEach((value, key) => data[key] = value);
-                 if (finalAddressDiv) data['final_address'] = finalAddressDiv.textContent; // Add final address
-                 console.log("Form Data (Simulated Send):", data);
+            // Form Submission Logic
+            const orderForm = document.getElementById('order-form');
+            const successMsg = document.getElementById('form-success');
+            const errorMsg = document.getElementById('form-error');
+            const submitButton = orderForm ? orderForm.querySelector('button[type="submit"]') : null;
+            const sheetDbUrl = 'https://sheetdb.io/api/v1/fg5880qtxha50'; // <-- YOUR SHEETDB URL HERE
 
-                setTimeout(() => {
-                    // Simulate success
-                    successMsg.textContent = 'Đặt hàng thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.';
-                    successMsg.classList.remove('hidden');
-                    orderForm.reset(); // Clear the form
-                    // Reset address dropdowns and final address display
-                    if (citySelect) populateSelect(citySelect, Object.keys(addressData)); // Repopulate cities
-                    if (districtSelect) {
-                         districtSelect.disabled = true;
-                         populateSelect(districtSelect, []);
-                    }
-                    if (wardSelect) {
-                         wardSelect.disabled = true;
-                          populateSelect(wardSelect, []);
-                    }
-                    if (finalAddressDiv) {
-                         finalAddressDiv.textContent = "Địa chỉ đầy đủ sẽ hiển thị ở đây";
-                    }
-                     // Reset borders
-                     requiredFields.forEach(field => field.classList.remove('border-red-500'));
-                     if (phoneInput) phoneInput.classList.remove('border-red-500');
+            if (orderForm && successMsg && errorMsg && submitButton) {
+                orderForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    successMsg.classList.add('hidden');
+                    errorMsg.classList.add('hidden');
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang xử lý...';
 
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Hoàn Tất Đặt Hàng';
-
-                    // Optional: Track conversion event
-                    if (typeof fbq === 'function') {
-                        fbq('track', 'Purchase', {currency: "VND", value: getSelectedPrice()});
+                    // Basic Validation (same as before)
+                    let isValid = true;
+                    const requiredFields = orderForm.querySelectorAll('[required]');
+                    requiredFields.forEach(field => {
+                        if (field.offsetParent !== null && !field.disabled) {
+                            if ((field.tagName === 'SELECT' && !field.value) || (field.tagName !== 'SELECT' && !field.value.trim())) {
+                                isValid = false;
+                                field.classList.add('border-red-500');
+                                field.classList.remove('border-d1d5db');
+                            } else {
+                                field.classList.remove('border-red-500');
+                                field.classList.add('border-d1d5db');
+                            }
+                        }
+                    });
+                    const phoneInput = document.getElementById('phone');
+                    if (phoneInput && !phoneInput.checkValidity()) {
+                        isValid = false;
+                        phoneInput.classList.add('border-red-500');
+                        phoneInput.classList.remove('border-d1d5db');
+                    } else if (phoneInput) {
+                        phoneInput.classList.remove('border-red-500');
+                        phoneInput.classList.add('border-d1d5db');
                     }
 
-                }, 1500); // Simulate network delay
+                    if (!isValid) {
+                        errorMsg.textContent = 'Vui lòng điền đầy đủ thông tin bắt buộc (địa chỉ, SĐT...) và kiểm tra lại định dạng.';
+                        errorMsg.classList.remove('hidden');
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Hoàn Tất Đặt Hàng';
+                        const firstInvalid = orderForm.querySelector('.border-red-500');
+                        if (firstInvalid) {
+                            firstInvalid.focus();
+                            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                        return;
+                    }
 
-                // --- To simulate an error ---
-                /*
-                setTimeout(() => {
-                    errorMsg.textContent = 'Đã có lỗi xảy ra. Vui lòng thử lại sau.';
-                    errorMsg.classList.remove('hidden');
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Hoàn Tất Đặt Hàng';
-                }, 1500);
-                */
-            });
-        }
+                    // --- Prepare data for SheetDB ---
+                    const dateInput = document.getElementById('form-date');
+                    if (dateInput) dateInput.value = new Date().toISOString(); // Set current date/time
+
+                    // Use FormData to easily get all fields, including the hidden address
+                    const formData = new FormData(orderForm);
+                    // Convert FormData to a plain object suitable for JSON stringify
+                    const dataToSend = {};
+                    formData.forEach((value, key) => {
+                        // Make sure keys match SheetDB columns exactly
+                        // Note: 'notes' textarea name was changed to 'Note' in HTML
+                        dataToSend[key] = value;
+                    });
+
+                    // Ensure the 'address' field uses the value from the hidden input
+                    dataToSend['address'] = hiddenAddressInput.value;
+
+                    console.log("Data being sent to SheetDB:", dataToSend); // Log data before sending
+
+                    // --- Send data using fetch ---
+                    fetch(sheetDbUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            data: [ // SheetDB expects data wrapped in a 'data' array
+                                dataToSend
+                            ]
+                        })
+                    })
+                    .then(response => response.json()) // Parse the JSON response from SheetDB
+                    .then(result => {
+                        console.log("SheetDB Response:", result); // Log the response
+                        if (result.created && result.created > 0) { // Check SheetDB success indicator
+                            // --- Success ---
+                            successMsg.textContent = 'Đặt hàng thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.';
+                            successMsg.classList.remove('hidden');
+                            orderForm.reset(); // Clear the form
+
+                            // Reset address dropdowns and final address display
+                            resetSelect(citySelect, 'Chọn Tỉnh/Thành phố');
+                            resetSelect(districtSelect, 'Chọn Quận/Huyện');
+                            resetSelect(wardSelect, 'Chọn Phường/Xã');
+                            if (finalAddressDiv) finalAddressDiv.textContent = "Địa chỉ đầy đủ sẽ hiển thị ở đây";
+                            if (hiddenAddressInput) hiddenAddressInput.value = ""; // Clear hidden input
+                            loadAddressData(); // Reload city data after reset
+
+                            // Reset borders
+                            requiredFields.forEach(field => field.classList.remove('border-red-500'));
+                            if (phoneInput) phoneInput.classList.remove('border-red-500');
+
+                            // Optional: Track conversion event
+                            if (typeof fbq === 'function') {
+                                fbq('track', 'Purchase', {currency: "VND", value: getSelectedPrice()});
+                            }
+                        } else {
+                            // --- Handle potential SheetDB error response ---
+                            throw new Error(result.message || 'Lỗi không xác định từ SheetDB.');
+                        }
+                    })
+                    .catch(error => {
+                        // --- Handle fetch or SheetDB errors ---
+                        console.error('Error sending data to SheetDB:', error);
+                        errorMsg.textContent = 'Đã có lỗi xảy ra khi gửi đơn hàng. Vui lòng thử lại sau hoặc liên hệ trực tiếp.';
+                        errorMsg.classList.remove('hidden');
+                    })
+                    .finally(() => {
+                        // --- Always re-enable button ---
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Hoàn Tất Đặt Hàng';
+                    });
+                });
+            }
+
+            // Lazy Loading Images (same as before)
+            var lazyImages = [].slice.call(document.querySelectorAll("img[loading='lazy']"));
+            if ("IntersectionObserver" in window) {
+                let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            let lazyImage = entry.target;
+                            lazyImage.src = lazyImage.dataset.src || lazyImage.src;
+                            lazyImage.removeAttribute("loading");
+                            lazyImageObserver.unobserve(lazyImage);
+                        }
+                    });
+                });
+                lazyImages.forEach(function(lazyImage) {
+                    lazyImageObserver.observe(lazyImage);
+                });
+            } else {
+                lazyImages.forEach(function(lazyImage) {
+                    lazyImage.src = lazyImage.dataset.src || lazyImage.src;
+                    lazyImage.removeAttribute("loading");
+                });
+            }
+        }); // End DOMContentLoaded
 
         function getSelectedPrice() {
             const select = document.getElementById('don_hang');
-             if (!select) return 0; // Add null check
+            if (!select) return 0;
             const selectedValue = select.value;
             if (selectedValue.includes('349K')) return 349000;
             if (selectedValue.includes('229K')) return 229000;
@@ -910,9 +1023,9 @@
         // --- Fake Order Popups ---
         const popupContainer = document.getElementById('effect-orders');
         const names = ["Anh Minh", "Chị Lan", "Chú Hùng", "Cô Mai", "Bạn Tuấn", "Chị Hoa", "Bác Dũng", "Cô Nga"];
-        const cities = ["Hà Nội", "TP. HCM", "Đà Nẵng", "Hải Phòng", "Cần Thơ", "Quảng Ngãi", "Nha Trang", "Huế"]; // Added Quảng Ngãi
+        const cities = ["Hà Nội", "TP. HCM", "Đà Nẵng", "Hải Phòng", "Cần Thơ", "Quảng Ngãi", "Nha Trang", "Huế"];
         const products = ["Sách Mẹo Nhớ Huyệt", "Combo 2 Sách"];
-        let popupIntervalId = null; // Store interval ID
+        let popupIntervalId = null;
 
         function showFakeOrder() {
             if (!popupContainer) return;
@@ -920,7 +1033,7 @@
             const randomName = names[Math.floor(Math.random() * names.length)];
             const randomCity = cities[Math.floor(Math.random() * cities.length)];
             const randomProduct = products[Math.floor(Math.random() * products.length)];
-            const randomTime = Math.floor(Math.random() * 59) + 1; // 1-59 minutes ago
+            const randomTime = Math.floor(Math.random() * 59) + 1;
 
             const popup = document.createElement('div');
             popup.className = 'fake-order-popup';
@@ -932,87 +1045,29 @@
                     <span class="time">${randomTime} phút trước</span>
                 </div>
             `;
-
             popupContainer.appendChild(popup);
 
-            // Trigger animation
-            setTimeout(() => {
-                popup.classList.add('show');
-            }, 100); // Small delay to allow rendering
+            setTimeout(() => popup.classList.add('show'), 100); // Show animation
 
-            // Hide and remove after a few seconds
-            setTimeout(() => {
+            setTimeout(() => { // Hide animation
                 popup.classList.remove('show');
                 popup.classList.add('hide');
-                setTimeout(() => {
-                    // Check if popup still exists before removing
+                setTimeout(() => { // Remove element
                     if (popup.parentNode === popupContainer) {
                         popupContainer.removeChild(popup);
                     }
-                }, 500); // Wait for hide animation
-            }, 5000); // Show for 5 seconds
+                }, 500);
+            }, 5000); // Display duration
         }
 
-        // Show a popup randomly every 8-15 seconds
         function schedulePopup() {
-             // Clear previous interval if any to prevent duplicates on potential re-runs
-             if (popupIntervalId) {
-                 clearTimeout(popupIntervalId);
-             }
-             const delay = Math.random() * 7000 + 8000; // 8-15 seconds
-             popupIntervalId = setTimeout(() => {
-                 showFakeOrder();
-                 schedulePopup(); // Schedule next one
-             }, delay);
+            if (popupIntervalId) clearTimeout(popupIntervalId); // Clear previous timeout
+            const delay = Math.random() * 7000 + 8000; // 8-15 seconds
+            popupIntervalId = setTimeout(() => {
+                showFakeOrder();
+                schedulePopup(); // Schedule next one
+            }, delay);
         }
-
-        if (popupContainer) {
-             schedulePopup(); // Start the popup cycle
-        }
-
-         // Add lazy loading to images
-         document.addEventListener("DOMContentLoaded", function() {
-            var lazyImages = [].slice.call(document.querySelectorAll("img[loading='lazy']"));
-
-            if ("IntersectionObserver" in window) {
-                let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                    let lazyImage = entry.target;
-                    lazyImage.src = lazyImage.dataset.src || lazyImage.src; // Use data-src if available, otherwise use src
-                    lazyImage.removeAttribute("loading"); // Optional: Remove loading attribute after load
-                    lazyImageObserver.unobserve(lazyImage);
-                    }
-                });
-                });
-
-                lazyImages.forEach(function(lazyImage) {
-                 lazyImageObserver.observe(lazyImage);
-                });
-            } else {
-                // Fallback for browsers that don't support IntersectionObserver
-                lazyImages.forEach(function(lazyImage) {
-                    lazyImage.src = lazyImage.dataset.src || lazyImage.src;
-                    lazyImage.removeAttribute("loading");
-                });
-            }
-
-             // Ensure JS runs after DOM is ready
-             if (timerElement && !timerInterval) {
-                 updateTimer(); // Initial call
-                 timerInterval = setInterval(updateTimer, 1000);
-             }
-             if (popupContainer && !popupIntervalId) {
-                 schedulePopup();
-             }
-             if (citySelect && districtSelect && wardSelect && streetInput && finalAddressDiv) {
-                 // Initial population if needed, or ensure event listeners are attached
-                 if(citySelect.options.length <= 1) { // Populate only if not already populated
-                    populateSelect(citySelect, Object.keys(addressData));
-                 }
-             }
-         });
-
 
     </script>
 
