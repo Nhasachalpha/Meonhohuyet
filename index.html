@@ -912,7 +912,7 @@
 
                     // --- Prepare data for SheetDB ---
                     const dateInput = document.getElementById('form-date');
-                    if (dateInput) dateInput.value = new Date().toISOString(); // Set current date/time
+                    if (dateInput) {     const now = new Date();     const options = {         timeZone: 'Asia/Ho_Chi_Minh', // Chỉ định múi giờ +7         year: 'numeric',         month: '2-digit',         day: '2-digit',         hour: '2-digit',         minute: '2-digit',         second: '2-digit',         hour12: false // Sử dụng định dạng 24 giờ     };      // Sử dụng 'sv-SE' để có định dạng YYYY-MM-DD HH:MM:SS     dateInput.value = now.toLocaleString('sv-SE', options); } // Set current date/time
 
                     // Use FormData to easily get all fields, including the hidden address
                     const formData = new FormData(orderForm);
